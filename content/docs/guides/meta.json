@@ -1,0 +1,25 @@
+{
+  "title": "ERP Guides",
+  "description": "Using every feature, day to day",
+  "icon": "BookOpen",
+  "root": true,
+  "pages": [
+    "index",
+    "---People & time---",
+    "people-and-hr",
+    "time-and-attendance",
+    "scheduling-and-forecasting",
+    "employee-area",
+    "---Money & stock---",
+    "sales",
+    "cash-management",
+    "inventory",
+    "purchasing-and-ordering",
+    "---Operations---",
+    "forms-and-checklists",
+    "equipment-and-assets",
+    "communication",
+    "team-displays",
+    "reports-and-insights"
+  ]
+}

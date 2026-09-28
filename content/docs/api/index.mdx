@@ -1,0 +1,119 @@
+---
+title: API overview
+description: The PurrOS REST API gives other systems access to everything the web interface can do. Its main job is bringing data in; webhooks send changes back out.
+icon: Braces
+---
+
+The PurrOS REST API gives other systems access to everything the web interface can do. Its main job is **bringing data in** from point-of-sale systems, online stores, timeclocks, HR tools and other services. **Webhooks** send changes back out.
+
+<Cards>
+  <Card title="Base URL">
+    `https://<your-purros>/api/v1`
+  </Card>
+  <Card title="Format">
+    JSON (UTF-8). Money and quantities are decimal strings.
+  </Card>
+  <Card title="Spec">
+    `GET /api/v1/openapi.json` (OpenAPI 3.1), with interactive docs at `/docs/api` on your server.
+  </Card>
+  <Card title="SDK" href="/docs/integrations/building-an-integration">
+    `@purros/sdk` for TypeScript <Planned />. For other languages, generate a client from the OpenAPI spec.
+  </Card>
+</Cards>
+
+<Callout type="info">
+  The spec on your server only contains endpoints of [enabled features](/docs/platform/administration/feature-switches). Endpoints of switched-off features return `404 feature_disabled`.
+</Callout>
+
+## Quickstart
+
+<Steps>
+<Step>
+
+### Get a key
+
+Register an [integration](/docs/integrations) to get an **integration key** limited to the scopes it declares, or create a **personal key** with `POST /api/v1/auth/api-keys` if your role has `api_keys.personal`. Keys look like `pk_live_…` and are shown once.
+
+</Step>
+<Step>
+
+### Check who you are
+
+```bash
+curl https://erp.example.com/api/v1/me \
+  -H "Authorization: Bearer $PURROS_KEY"
+```
+
+`GET /me` describes the calling key. For a person, `GET /auth/session` returns their role, permissions and assignments.
+
+</Step>
+<Step>
+
+### Read something
+
+```bash
+curl "https://erp.example.com/api/v1/locations?limit=50" \
+  -H "Authorization: Bearer $PURROS_KEY"
+```
+
+```json
+{
+  "data": [{ "id": "loc_01J8Z…", "name": "Store 101", "externalId": "101", "timezone": "America/Chicago" }],
+  "nextCursor": null,
+  "hasMore": false
+}
+```
+
+</Step>
+<Step>
+
+### Send data in
+
+Most traffic is batched ingestion, idempotent on `(source, externalId)`:
+
+```bash
+curl -X POST https://erp.example.com/api/v1/sales/transactions:batch \
+  -H "Authorization: Bearer $PURROS_KEY" -H "Content-Type: application/json" \
+  -d '{"source": "pos:store-101", "transactions": [ … ]}'
+```
+
+See [Data ingestion](/docs/api/data-ingestion) for the rules and full examples.
+
+</Step>
+<Step>
+
+### Listen for changes
+
+Subscribe to [webhooks](/docs/api/webhooks) such as `employee.created` or `pay_period.locked`, and verify each delivery's signature.
+
+</Step>
+</Steps>
+
+## Learn the API
+
+<Cards>
+  <Card title="Authentication & scopes" href="/docs/api/authentication">
+    Integration keys, personal keys, sessions, permissions and reach, and every scope.
+  </Card>
+  <Card title="Conventions" href="/docs/api/conventions">
+    Naming, IDs, decimals, pagination, filtering, upserts, batch and action endpoints, versioning.
+  </Card>
+  <Card title="Errors & limits" href="/docs/api/errors">
+    Problem Details error codes, idempotency keys and rate limits.
+  </Card>
+  <Card title="Data ingestion" href="/docs/api/data-ingestion">
+    Sending sales, tenders, punches, orders and more, reliably.
+  </Card>
+  <Card title="Webhooks" href="/docs/api/webhooks">
+    Event catalog, payloads, signature verification, retries and replay.
+  </Card>
+  <Card title="Attachments" href="/docs/api/attachments">
+    Uploading and downloading files: proof, photos, receipts, payslips.
+  </Card>
+</Cards>
+
+## Endpoint reference
+
+Every one of the <EndpointCount /> endpoints, grouped by area, with the scope and permission each needs. Search them all in the [endpoint explorer](/docs/api/reference).
+
+<EndpointSections />

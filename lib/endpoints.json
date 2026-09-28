@@ -1,0 +1,2949 @@
+[
+  {
+    "title": "Authentication",
+    "slug": "authentication",
+    "intro": "",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/auth/api-keys",
+        "integration": null,
+        "people": "self (session)",
+        "feature": null,
+        "description": "Your personal API keys"
+      },
+      {
+        "method": "POST",
+        "path": "/auth/api-keys",
+        "integration": null,
+        "people": "`api_keys.personal` (session)",
+        "feature": null,
+        "description": "Create a personal API key"
+      },
+      {
+        "method": "DELETE",
+        "path": "/auth/api-keys/{id}",
+        "integration": null,
+        "people": "self (session)",
+        "feature": null,
+        "description": "Revoke one of your personal API keys"
+      },
+      {
+        "method": "POST",
+        "path": "/auth/invitations:accept",
+        "integration": "public",
+        "people": "public",
+        "feature": null,
+        "description": "Accept an invitation and set a password"
+      },
+      {
+        "method": "POST",
+        "path": "/auth/magic-link",
+        "integration": "public",
+        "people": "public",
+        "feature": null,
+        "description": "Email a single-use sign-in link"
+      },
+      {
+        "method": "POST",
+        "path": "/auth/magic-link:redeem",
+        "integration": "public",
+        "people": "public",
+        "feature": null,
+        "description": "Sign in with a magic link"
+      },
+      {
+        "method": "POST",
+        "path": "/auth/mfa/recovery-codes:regenerate",
+        "integration": null,
+        "people": "self (session)",
+        "feature": null,
+        "description": "Replace your recovery codes"
+      },
+      {
+        "method": "POST",
+        "path": "/auth/mfa/totp:confirm",
+        "integration": null,
+        "people": "self (session)",
+        "feature": null,
+        "description": "Turn on two-factor authentication with a first code"
+      },
+      {
+        "method": "POST",
+        "path": "/auth/mfa/totp:disable",
+        "integration": null,
+        "people": "self (session)",
+        "feature": null,
+        "description": "Turn off two-factor authentication"
+      },
+      {
+        "method": "POST",
+        "path": "/auth/mfa/totp:setup",
+        "integration": null,
+        "people": "self (session)",
+        "feature": null,
+        "description": "Start setting up an authenticator app"
+      },
+      {
+        "method": "POST",
+        "path": "/auth/password",
+        "integration": null,
+        "people": "self (session)",
+        "feature": null,
+        "description": "Change your password"
+      },
+      {
+        "method": "POST",
+        "path": "/auth/password-reset",
+        "integration": "public",
+        "people": "public",
+        "feature": null,
+        "description": "Email a password reset link"
+      },
+      {
+        "method": "POST",
+        "path": "/auth/password-reset:complete",
+        "integration": "public",
+        "people": "public",
+        "feature": null,
+        "description": "Choose a new password with a reset link"
+      },
+      {
+        "method": "GET",
+        "path": "/auth/session",
+        "integration": null,
+        "people": "self",
+        "feature": null,
+        "description": "The signed-in person: role, permissions, assignments and enabled features"
+      },
+      {
+        "method": "GET",
+        "path": "/auth/sessions",
+        "integration": null,
+        "people": "self (session)",
+        "feature": null,
+        "description": "Your active sessions and devices"
+      },
+      {
+        "method": "DELETE",
+        "path": "/auth/sessions/{id}",
+        "integration": null,
+        "people": "self (session)",
+        "feature": null,
+        "description": "Sign out one of your sessions"
+      },
+      {
+        "method": "POST",
+        "path": "/auth/sign-in",
+        "integration": "public",
+        "people": "public",
+        "feature": null,
+        "description": "Sign in with email and password"
+      },
+      {
+        "method": "POST",
+        "path": "/auth/sign-in/mfa",
+        "integration": null,
+        "people": "self (session)",
+        "feature": null,
+        "description": "Finish signing in with an authenticator or recovery code"
+      },
+      {
+        "method": "POST",
+        "path": "/auth/sign-out",
+        "integration": null,
+        "people": "self (session)",
+        "feature": null,
+        "description": "Sign out this session"
+      }
+    ]
+  },
+  {
+    "title": "Users & Roles",
+    "slug": "users-and-roles",
+    "intro": "",
+    "endpoints": [
+      {
+        "method": "POST",
+        "path": "/roles",
+        "integration": null,
+        "people": "`roles.manage` (Everyone)",
+        "feature": null,
+        "description": "Create a role"
+      },
+      {
+        "method": "PATCH",
+        "path": "/roles/{id}",
+        "integration": null,
+        "people": "`roles.manage` (Everyone)",
+        "feature": null,
+        "description": "Change a role"
+      },
+      {
+        "method": "DELETE",
+        "path": "/roles/{id}",
+        "integration": null,
+        "people": "`roles.manage` (Everyone)",
+        "feature": null,
+        "description": "Delete a role"
+      },
+      {
+        "method": "GET",
+        "path": "/settings/authentication",
+        "integration": null,
+        "people": "`settings.manage` (Everyone)",
+        "feature": null,
+        "description": "Sign-in settings"
+      },
+      {
+        "method": "PATCH",
+        "path": "/settings/authentication",
+        "integration": null,
+        "people": "`settings.manage` (Everyone)",
+        "feature": null,
+        "description": "Change sign-in settings"
+      },
+      {
+        "method": "POST",
+        "path": "/users",
+        "integration": null,
+        "people": "`users.manage` (Everyone)",
+        "feature": null,
+        "description": "Invite someone"
+      },
+      {
+        "method": "PATCH",
+        "path": "/users/{id}",
+        "integration": null,
+        "people": "`users.manage` (Everyone)",
+        "feature": null,
+        "description": "Change someone's name, role, employee link or assignments"
+      },
+      {
+        "method": "POST",
+        "path": "/users/{id}:deactivate",
+        "integration": null,
+        "people": "`users.manage` (Everyone)",
+        "feature": null,
+        "description": "Deactivate an account"
+      },
+      {
+        "method": "POST",
+        "path": "/users/{id}:reactivate",
+        "integration": null,
+        "people": "`users.manage` (Everyone)",
+        "feature": null,
+        "description": "Reactivate an account"
+      },
+      {
+        "method": "POST",
+        "path": "/users/{id}:reset-sign-in",
+        "integration": null,
+        "people": "`users.manage` (Everyone)",
+        "feature": null,
+        "description": "Reset someone's sign-in"
+      }
+    ]
+  },
+  {
+    "title": "Platform",
+    "slug": "platform",
+    "intro": "",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/features",
+        "integration": "any key",
+        "people": "anyone",
+        "feature": null,
+        "description": "Features and whether they are enabled"
+      },
+      {
+        "method": "GET",
+        "path": "/me",
+        "integration": "any key",
+        "people": "anyone",
+        "feature": null,
+        "description": "The calling API key"
+      },
+      {
+        "method": "GET",
+        "path": "/openapi.json",
+        "integration": "public",
+        "people": "public",
+        "feature": null,
+        "description": "OpenAPI document for enabled features"
+      },
+      {
+        "method": "GET",
+        "path": "/permissions",
+        "integration": "any key",
+        "people": "anyone",
+        "feature": null,
+        "description": "Permission catalog for enabled features"
+      }
+    ]
+  },
+  {
+    "title": "Integration self-service",
+    "slug": "integration-self-service",
+    "intro": "",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/integrations/self",
+        "integration": "integration key",
+        "people": null,
+        "feature": null,
+        "description": "The calling integration's registration"
+      },
+      {
+        "method": "GET",
+        "path": "/integrations/self/config",
+        "integration": "integration key",
+        "people": null,
+        "feature": null,
+        "description": "Config values entered by the admin"
+      },
+      {
+        "method": "POST",
+        "path": "/integrations/self/health",
+        "integration": "integration key",
+        "people": null,
+        "feature": null,
+        "description": "Send a heartbeat and status message"
+      },
+      {
+        "method": "POST",
+        "path": "/integrations/self/logs",
+        "integration": "integration key",
+        "people": null,
+        "feature": null,
+        "description": "Add a log message to the integration's log"
+      }
+    ]
+  },
+  {
+    "title": "Integrations",
+    "slug": "integrations",
+    "intro": "Managing integrations. People only; see [Integrations](../integrations/README.md#managing-integrations).",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/integrations",
+        "integration": null,
+        "people": "`integrations.manage` (Everyone)",
+        "feature": null,
+        "description": "List integrations; `status` filters"
+      },
+      {
+        "method": "POST",
+        "path": "/integrations",
+        "integration": null,
+        "people": "`integrations.manage` (Everyone)",
+        "feature": null,
+        "description": "Register an integration from its manifest; returns its API key and webhook secret once"
+      },
+      {
+        "method": "GET",
+        "path": "/integrations/{id}",
+        "integration": null,
+        "people": "`integrations.manage` (Everyone)",
+        "feature": null,
+        "description": "An integration with its manifest, config (secrets masked), API keys and webhook endpoints"
+      },
+      {
+        "method": "DELETE",
+        "path": "/integrations/{id}",
+        "integration": null,
+        "people": "`integrations.manage` (Everyone)",
+        "feature": null,
+        "description": "Remove an integration with its keys, config, logs and webhook endpoint"
+      },
+      {
+        "method": "PUT",
+        "path": "/integrations/{id}/manifest",
+        "integration": null,
+        "people": "`integrations.manage` (Everyone)",
+        "feature": null,
+        "description": "Replace its manifest, e.g. for a new version"
+      },
+      {
+        "method": "PATCH",
+        "path": "/integrations/{id}/config",
+        "integration": null,
+        "people": "`integrations.manage` (Everyone)",
+        "feature": null,
+        "description": "Change config values (`null` removes one)"
+      },
+      {
+        "method": "POST",
+        "path": "/integrations/{id}:pause",
+        "integration": null,
+        "people": "`integrations.manage` (Everyone)",
+        "feature": null,
+        "description": "Pause it: its keys are refused and its webhooks wait"
+      },
+      {
+        "method": "POST",
+        "path": "/integrations/{id}:resume",
+        "integration": null,
+        "people": "`integrations.manage` (Everyone)",
+        "feature": null,
+        "description": "Resume it"
+      },
+      {
+        "method": "POST",
+        "path": "/integrations/{id}:rotate-key",
+        "integration": null,
+        "people": "`integrations.manage` (Everyone)",
+        "feature": null,
+        "description": "Issue a new API key; the old ones keep working for `graceMinutes`"
+      },
+      {
+        "method": "GET",
+        "path": "/integrations/{id}/logs",
+        "integration": null,
+        "people": "`integrations.manage` (Everyone)",
+        "feature": null,
+        "description": "Messages it logged; `level` and `from` filter"
+      },
+      {
+        "method": "GET",
+        "path": "/integrations/{id}/batches",
+        "integration": null,
+        "people": "`integrations.manage` (Everyone)",
+        "feature": null,
+        "description": "Ingestion batches it sent, with created, updated and rejected counts; `from` and `rejectedOnly` filter"
+      }
+    ]
+  },
+  {
+    "title": "Attachments",
+    "slug": "attachments",
+    "intro": "",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/attachments",
+        "integration": "attachments:read",
+        "people": "`attachments.read`",
+        "feature": null,
+        "description": "List attachments"
+      },
+      {
+        "method": "POST",
+        "path": "/attachments",
+        "integration": "attachments:write",
+        "people": "anyone",
+        "feature": null,
+        "description": "Upload a file"
+      },
+      {
+        "method": "GET",
+        "path": "/attachments/{id}",
+        "integration": "attachments:read",
+        "people": "uploader, the employee concerned, or `attachments.read`",
+        "feature": null,
+        "description": "Get an attachment's details"
+      },
+      {
+        "method": "DELETE",
+        "path": "/attachments/{id}",
+        "integration": "attachments:write",
+        "people": "uploader, or `attachments.manage`",
+        "feature": null,
+        "description": "Delete an attachment"
+      },
+      {
+        "method": "GET",
+        "path": "/attachments/{id}/content",
+        "integration": "attachments:read",
+        "people": "uploader, the employee concerned, or `attachments.read`",
+        "feature": null,
+        "description": "Download an attachment"
+      },
+      {
+        "method": "GET",
+        "path": "/me/attachments",
+        "integration": null,
+        "people": "self",
+        "feature": null,
+        "description": "Files you uploaded or that concern you"
+      }
+    ]
+  },
+  {
+    "title": "Organization",
+    "slug": "organization",
+    "intro": "",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/org-units",
+        "integration": "organization:read",
+        "people": "anyone",
+        "feature": null,
+        "description": "List org units (regions, districts…); `parentId` filters"
+      },
+      {
+        "method": "POST",
+        "path": "/org-units",
+        "integration": "organization:write",
+        "people": "`organization.manage` (Everyone)",
+        "feature": null,
+        "description": "Create an org unit"
+      },
+      {
+        "method": "GET",
+        "path": "/org-units/{id}",
+        "integration": "organization:read",
+        "people": "anyone",
+        "feature": null,
+        "description": "Get an org unit"
+      },
+      {
+        "method": "PATCH",
+        "path": "/org-units/{id}",
+        "integration": "organization:write",
+        "people": "`organization.manage` (Everyone)",
+        "feature": null,
+        "description": "Update an org unit (e.g. move it under another parent)"
+      },
+      {
+        "method": "DELETE",
+        "path": "/org-units/{id}",
+        "integration": "organization:write",
+        "people": "`organization.manage` (Everyone)",
+        "feature": null,
+        "description": "Archive an org unit (only once it contains no active units or locations)"
+      },
+      {
+        "method": "GET",
+        "path": "/org-units/external/{externalId}",
+        "integration": "organization:read",
+        "people": "anyone",
+        "feature": null,
+        "description": "Get an org unit by external ID"
+      },
+      {
+        "method": "PUT",
+        "path": "/org-units/external/{externalId}",
+        "integration": "organization:write",
+        "people": "`organization.manage` (Everyone)",
+        "feature": null,
+        "description": "Create or replace an org unit by external ID"
+      },
+      {
+        "method": "GET",
+        "path": "/locations",
+        "integration": "organization:read",
+        "people": "anyone",
+        "feature": null,
+        "description": "List locations; `orgUnitId`, `status` and `includeArchived` filter"
+      },
+      {
+        "method": "POST",
+        "path": "/locations",
+        "integration": "organization:write",
+        "people": "`organization.manage` (Everyone)",
+        "feature": null,
+        "description": "Create a location"
+      },
+      {
+        "method": "GET",
+        "path": "/locations/{id}",
+        "integration": "organization:read",
+        "people": "anyone",
+        "feature": null,
+        "description": "Get a location"
+      },
+      {
+        "method": "PATCH",
+        "path": "/locations/{id}",
+        "integration": "organization:write",
+        "people": "`organization.manage`",
+        "feature": null,
+        "description": "Update a location's profile"
+      },
+      {
+        "method": "DELETE",
+        "path": "/locations/{id}",
+        "integration": "organization:write",
+        "people": "`organization.manage`",
+        "feature": null,
+        "description": "Archive (close) a location; history is kept"
+      },
+      {
+        "method": "GET",
+        "path": "/locations/external/{externalId}",
+        "integration": "organization:read",
+        "people": "anyone",
+        "feature": null,
+        "description": "Get a location by external ID"
+      },
+      {
+        "method": "PUT",
+        "path": "/locations/external/{externalId}",
+        "integration": "organization:write",
+        "people": "`organization.manage` (Everyone)",
+        "feature": null,
+        "description": "Create or replace a location by external ID"
+      },
+      {
+        "method": "GET",
+        "path": "/departments",
+        "integration": "organization:read",
+        "people": "anyone",
+        "feature": null,
+        "description": "List departments"
+      },
+      {
+        "method": "POST",
+        "path": "/departments",
+        "integration": "organization:write",
+        "people": "`organization.manage` (Everyone)",
+        "feature": null,
+        "description": "Create a department"
+      },
+      {
+        "method": "GET",
+        "path": "/departments/{id}",
+        "integration": "organization:read",
+        "people": "anyone",
+        "feature": null,
+        "description": "Get a department"
+      },
+      {
+        "method": "PATCH",
+        "path": "/departments/{id}",
+        "integration": "organization:write",
+        "people": "`organization.manage` (Everyone)",
+        "feature": null,
+        "description": "Update a department"
+      },
+      {
+        "method": "DELETE",
+        "path": "/departments/{id}",
+        "integration": "organization:write",
+        "people": "`organization.manage` (Everyone)",
+        "feature": null,
+        "description": "Archive a department"
+      },
+      {
+        "method": "GET",
+        "path": "/departments/external/{externalId}",
+        "integration": "organization:read",
+        "people": "anyone",
+        "feature": null,
+        "description": "Get a department by external ID"
+      },
+      {
+        "method": "PUT",
+        "path": "/departments/external/{externalId}",
+        "integration": "organization:write",
+        "people": "`organization.manage` (Everyone)",
+        "feature": null,
+        "description": "Create or replace a department by external ID"
+      },
+      {
+        "method": "GET",
+        "path": "/roles",
+        "integration": "organization:read",
+        "people": "`users.read`",
+        "feature": null,
+        "description": "List roles and their permissions"
+      },
+      {
+        "method": "GET",
+        "path": "/roles/{id}",
+        "integration": "organization:read",
+        "people": "`users.read`",
+        "feature": null,
+        "description": "Get a role"
+      },
+      {
+        "method": "GET",
+        "path": "/users",
+        "integration": "organization:read",
+        "people": "`users.read`",
+        "feature": null,
+        "description": "List user accounts with their role and assignments"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{id}",
+        "integration": "organization:read",
+        "people": "`users.read`",
+        "feature": null,
+        "description": "Get a user"
+      }
+    ]
+  },
+  {
+    "title": "People & HR",
+    "slug": "people",
+    "intro": "",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/employees",
+        "integration": "people:read",
+        "people": "`employees.read`",
+        "feature": "people",
+        "description": "List employees"
+      },
+      {
+        "method": "POST",
+        "path": "/employees",
+        "integration": "people:write",
+        "people": "`employees.write`",
+        "feature": "people",
+        "description": "Create an employee"
+      },
+      {
+        "method": "GET",
+        "path": "/employees/external/{externalId}",
+        "integration": "people:read",
+        "people": "`employees.read`",
+        "feature": "people",
+        "description": "Get an employee by external ID"
+      },
+      {
+        "method": "PUT",
+        "path": "/employees/external/{externalId}",
+        "integration": "people:write",
+        "people": "`employees.write`",
+        "feature": "people",
+        "description": "Create or replace an employee by external ID"
+      },
+      {
+        "method": "GET",
+        "path": "/employees/{employeeId}/documents",
+        "integration": "people:read",
+        "people": "`documents.read`",
+        "feature": "people.documents",
+        "description": "List employee documents"
+      },
+      {
+        "method": "POST",
+        "path": "/employees/{employeeId}/documents",
+        "integration": "people:write",
+        "people": "`documents.manage`",
+        "feature": "people.documents",
+        "description": "Create an employee document"
+      },
+      {
+        "method": "GET",
+        "path": "/employees/{employeeId}/documents/{id}",
+        "integration": "people:read",
+        "people": "`documents.read`",
+        "feature": "people.documents",
+        "description": "Get an employee document"
+      },
+      {
+        "method": "PATCH",
+        "path": "/employees/{employeeId}/documents/{id}",
+        "integration": "people:write",
+        "people": "`documents.manage`",
+        "feature": "people.documents",
+        "description": "Update an employee document (partial)"
+      },
+      {
+        "method": "DELETE",
+        "path": "/employees/{employeeId}/documents/{id}",
+        "integration": "people:write",
+        "people": "`documents.manage`",
+        "feature": "people.documents",
+        "description": "Archive an employee document"
+      },
+      {
+        "method": "GET",
+        "path": "/employees/{id}",
+        "integration": "people:read",
+        "people": "`employees.read`",
+        "feature": "people",
+        "description": "Get an employee"
+      },
+      {
+        "method": "PATCH",
+        "path": "/employees/{id}",
+        "integration": "people:write",
+        "people": "`employees.write`",
+        "feature": "people",
+        "description": "Update an employee (partial)"
+      },
+      {
+        "method": "DELETE",
+        "path": "/employees/{id}",
+        "integration": "people:write",
+        "people": "`employees.write`",
+        "feature": "people",
+        "description": "Archive an employee"
+      },
+      {
+        "method": "GET",
+        "path": "/employees/{id}/pay-rates",
+        "integration": "payroll:read",
+        "people": "`pay.read`",
+        "feature": "people",
+        "description": "Pay rate history (newest first)"
+      },
+      {
+        "method": "POST",
+        "path": "/employees/{id}/pay-rates",
+        "integration": "payroll:write",
+        "people": "`pay.write`",
+        "feature": "people",
+        "description": "Add a pay rate"
+      },
+      {
+        "method": "GET",
+        "path": "/employees/{id}/skills",
+        "integration": "people:read",
+        "people": "`employees.read`",
+        "feature": "people.skills",
+        "description": "An employee's skills and certifications"
+      },
+      {
+        "method": "PUT",
+        "path": "/employees/{id}/skills/{skillId}",
+        "integration": "people:write",
+        "people": "`skills.manage`",
+        "feature": "people.skills",
+        "description": "Give an employee a skill or certification"
+      },
+      {
+        "method": "DELETE",
+        "path": "/employees/{id}/skills/{skillId}",
+        "integration": "people:write",
+        "people": "`skills.manage`",
+        "feature": "people.skills",
+        "description": "Remove a skill from an employee"
+      },
+      {
+        "method": "POST",
+        "path": "/employees/{id}:rehire",
+        "integration": "people:write",
+        "people": "`employees.write`",
+        "feature": "people",
+        "description": "Rehire a terminated employee"
+      },
+      {
+        "method": "POST",
+        "path": "/employees/{id}:terminate",
+        "integration": "people:write",
+        "people": "`employees.write`",
+        "feature": "people",
+        "description": "Terminate an employee"
+      },
+      {
+        "method": "POST",
+        "path": "/employees/{id}:transfer",
+        "integration": "people:write",
+        "people": "`employees.write`",
+        "feature": "people",
+        "description": "Transfer an employee (location, department, position or manager)"
+      },
+      {
+        "method": "GET",
+        "path": "/payslips",
+        "integration": "payroll:read",
+        "people": "`pay.read`",
+        "feature": "employee_area.payslips",
+        "description": "List payslips"
+      },
+      {
+        "method": "POST",
+        "path": "/payslips",
+        "integration": "payroll:write",
+        "people": null,
+        "feature": "employee_area.payslips",
+        "description": "Send payslips from your payroll provider"
+      },
+      {
+        "method": "GET",
+        "path": "/skills",
+        "integration": "people:read",
+        "people": "`employees.read`",
+        "feature": "people.skills",
+        "description": "List skills"
+      },
+      {
+        "method": "POST",
+        "path": "/skills",
+        "integration": "people:write",
+        "people": "`skills.manage`",
+        "feature": "people.skills",
+        "description": "Create a skill"
+      },
+      {
+        "method": "GET",
+        "path": "/skills/external/{externalId}",
+        "integration": "people:read",
+        "people": "`employees.read`",
+        "feature": "people.skills",
+        "description": "Get a skill by external ID"
+      },
+      {
+        "method": "PUT",
+        "path": "/skills/external/{externalId}",
+        "integration": "people:write",
+        "people": "`skills.manage`",
+        "feature": "people.skills",
+        "description": "Create or replace a skill by external ID"
+      },
+      {
+        "method": "GET",
+        "path": "/skills/{id}",
+        "integration": "people:read",
+        "people": "`employees.read`",
+        "feature": "people.skills",
+        "description": "Get a skill"
+      },
+      {
+        "method": "PATCH",
+        "path": "/skills/{id}",
+        "integration": "people:write",
+        "people": "`skills.manage`",
+        "feature": "people.skills",
+        "description": "Update a skill (partial)"
+      },
+      {
+        "method": "DELETE",
+        "path": "/skills/{id}",
+        "integration": "people:write",
+        "people": "`skills.manage`",
+        "feature": "people.skills",
+        "description": "Archive a skill"
+      }
+    ]
+  },
+  {
+    "title": "Time & Attendance",
+    "slug": "time",
+    "intro": "",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/labor-rule-sets",
+        "integration": "time:read",
+        "people": "`timesheets.read`",
+        "feature": "time",
+        "description": "List labor rule sets"
+      },
+      {
+        "method": "POST",
+        "path": "/labor-rule-sets",
+        "integration": "time:write",
+        "people": "`labor_rules.manage`",
+        "feature": "time",
+        "description": "Create a labor rule set"
+      },
+      {
+        "method": "GET",
+        "path": "/labor-rule-sets/{id}",
+        "integration": "time:read",
+        "people": "`timesheets.read`",
+        "feature": "time",
+        "description": "Get a labor rule set"
+      },
+      {
+        "method": "PATCH",
+        "path": "/labor-rule-sets/{id}",
+        "integration": "time:write",
+        "people": "`labor_rules.manage`",
+        "feature": "time",
+        "description": "Update a labor rule set (partial)"
+      },
+      {
+        "method": "GET",
+        "path": "/pay-periods",
+        "integration": "payroll:read",
+        "people": "`timesheets.read`",
+        "feature": "time",
+        "description": "List pay periods (newest first)"
+      },
+      {
+        "method": "POST",
+        "path": "/pay-periods",
+        "integration": "payroll:write",
+        "people": "`pay_periods.lock`",
+        "feature": "time",
+        "description": "Create a pay period"
+      },
+      {
+        "method": "GET",
+        "path": "/pay-periods/{id}",
+        "integration": "payroll:read",
+        "people": "`timesheets.read`",
+        "feature": "time",
+        "description": "Get a pay period"
+      },
+      {
+        "method": "GET",
+        "path": "/pay-periods/{id}/export",
+        "integration": "payroll:read",
+        "people": "`payroll.export`",
+        "feature": "time.payroll_export",
+        "description": "Export hours for payroll"
+      },
+      {
+        "method": "POST",
+        "path": "/pay-periods/{id}:lock",
+        "integration": "payroll:write",
+        "people": "`pay_periods.lock`",
+        "feature": "time",
+        "description": "Lock a pay period (final payroll approval)"
+      },
+      {
+        "method": "GET",
+        "path": "/punch-corrections",
+        "integration": "time:read",
+        "people": "`punches.correct`",
+        "feature": "time",
+        "description": "List punch corrections"
+      },
+      {
+        "method": "POST",
+        "path": "/punch-corrections/{id}:approve",
+        "integration": "time:write",
+        "people": "`punches.correct`",
+        "feature": "time",
+        "description": "Approve a punch correction"
+      },
+      {
+        "method": "POST",
+        "path": "/punch-corrections/{id}:reject",
+        "integration": "time:write",
+        "people": "`punches.correct`",
+        "feature": "time",
+        "description": "Reject a punch correction"
+      },
+      {
+        "method": "POST",
+        "path": "/time-off/adjustments",
+        "integration": "time:write",
+        "people": "`time_off.approve`",
+        "feature": "time.time_off",
+        "description": "Add or deduct time-off hours (accruals, corrections)"
+      },
+      {
+        "method": "GET",
+        "path": "/time-off/balances",
+        "integration": "time:read",
+        "people": "`time_off.read`",
+        "feature": "time.time_off",
+        "description": "Time-off balances per employee and type"
+      },
+      {
+        "method": "GET",
+        "path": "/time-off/requests",
+        "integration": "time:read",
+        "people": "`time_off.read`",
+        "feature": "time.time_off",
+        "description": "List time-off requests"
+      },
+      {
+        "method": "POST",
+        "path": "/time-off/requests",
+        "integration": "time:write",
+        "people": "`time_off.approve`",
+        "feature": "time.time_off",
+        "description": "Request time off"
+      },
+      {
+        "method": "POST",
+        "path": "/time-off/requests/{id}:approve",
+        "integration": "time:write",
+        "people": "`time_off.approve`",
+        "feature": "time.time_off",
+        "description": "Approve a time-off request (deducts the balance)"
+      },
+      {
+        "method": "POST",
+        "path": "/time-off/requests/{id}:cancel",
+        "integration": "time:write",
+        "people": "`time_off.approve`",
+        "feature": "time.time_off",
+        "description": "Cancel a time-off request (restores the balance if it was approved)"
+      },
+      {
+        "method": "POST",
+        "path": "/time-off/requests/{id}:reject",
+        "integration": "time:write",
+        "people": "`time_off.approve`",
+        "feature": "time.time_off",
+        "description": "Reject a time-off request"
+      },
+      {
+        "method": "GET",
+        "path": "/time-off/types",
+        "integration": "time:read",
+        "people": "anyone",
+        "feature": "time.time_off",
+        "description": "List time off types"
+      },
+      {
+        "method": "POST",
+        "path": "/time-off/types",
+        "integration": "time:write",
+        "people": "`settings.manage`",
+        "feature": "time.time_off",
+        "description": "Create a time off type"
+      },
+      {
+        "method": "GET",
+        "path": "/time-off/types/external/{externalId}",
+        "integration": "time:read",
+        "people": "anyone",
+        "feature": "time.time_off",
+        "description": "Get a time off type by external ID"
+      },
+      {
+        "method": "PUT",
+        "path": "/time-off/types/external/{externalId}",
+        "integration": "time:write",
+        "people": "`settings.manage`",
+        "feature": "time.time_off",
+        "description": "Create or replace a time off type by external ID"
+      },
+      {
+        "method": "GET",
+        "path": "/time-off/types/{id}",
+        "integration": "time:read",
+        "people": "anyone",
+        "feature": "time.time_off",
+        "description": "Get a time off type"
+      },
+      {
+        "method": "PATCH",
+        "path": "/time-off/types/{id}",
+        "integration": "time:write",
+        "people": "`settings.manage`",
+        "feature": "time.time_off",
+        "description": "Update a time off type (partial)"
+      },
+      {
+        "method": "DELETE",
+        "path": "/time-off/types/{id}",
+        "integration": "time:write",
+        "people": "`settings.manage`",
+        "feature": "time.time_off",
+        "description": "Archive a time off type"
+      },
+      {
+        "method": "GET",
+        "path": "/time/punches",
+        "integration": "time:read",
+        "people": "`punches.read`",
+        "feature": "time",
+        "description": "List punches"
+      },
+      {
+        "method": "POST",
+        "path": "/time/punches:batch",
+        "integration": "time:write",
+        "people": null,
+        "feature": "time",
+        "description": "Send punches in bulk"
+      },
+      {
+        "method": "GET",
+        "path": "/timesheets",
+        "integration": "time:read",
+        "people": "`timesheets.read`",
+        "feature": "time",
+        "description": "List timesheets"
+      },
+      {
+        "method": "GET",
+        "path": "/timesheets/{id}",
+        "integration": "time:read",
+        "people": "`timesheets.read`",
+        "feature": "time",
+        "description": "Get a timesheet with daily detail and exceptions"
+      },
+      {
+        "method": "POST",
+        "path": "/timesheets/{id}:approve",
+        "integration": "time:write",
+        "people": "`timesheets.approve`",
+        "feature": "time",
+        "description": "Approve a timesheet (manager step)"
+      },
+      {
+        "method": "POST",
+        "path": "/timesheets/{id}:reject",
+        "integration": "time:write",
+        "people": "`timesheets.approve`",
+        "feature": "time",
+        "description": "Reject a timesheet"
+      },
+      {
+        "method": "POST",
+        "path": "/timesheets:build",
+        "integration": "time:write",
+        "people": "`timesheets.approve`",
+        "feature": "time",
+        "description": "Build or refresh timesheets from punches"
+      }
+    ]
+  },
+  {
+    "title": "Scheduling & Forecasting",
+    "slug": "scheduling",
+    "intro": "",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/availability",
+        "integration": "scheduling:read",
+        "people": "`schedules.read`",
+        "feature": "scheduling",
+        "description": "List availabilitys"
+      },
+      {
+        "method": "POST",
+        "path": "/availability",
+        "integration": "scheduling:write",
+        "people": "`schedules.manage`",
+        "feature": "scheduling",
+        "description": "Create an availability"
+      },
+      {
+        "method": "GET",
+        "path": "/availability/{id}",
+        "integration": "scheduling:read",
+        "people": "`schedules.read`",
+        "feature": "scheduling",
+        "description": "Get an availability"
+      },
+      {
+        "method": "PATCH",
+        "path": "/availability/{id}",
+        "integration": "scheduling:write",
+        "people": "`schedules.manage`",
+        "feature": "scheduling",
+        "description": "Update an availability (partial)"
+      },
+      {
+        "method": "DELETE",
+        "path": "/availability/{id}",
+        "integration": "scheduling:write",
+        "people": "`schedules.manage`",
+        "feature": "scheduling",
+        "description": "Archive an availability"
+      },
+      {
+        "method": "POST",
+        "path": "/demand-drivers",
+        "integration": "scheduling:write",
+        "people": null,
+        "feature": "scheduling",
+        "description": "Send demand drivers (appointments, foot traffic, orders…)"
+      },
+      {
+        "method": "GET",
+        "path": "/forecasts",
+        "integration": "scheduling:read",
+        "people": "`forecasts.read`",
+        "feature": "scheduling.forecasting",
+        "description": "Forecast a demand driver"
+      },
+      {
+        "method": "POST",
+        "path": "/forecasts/adjustments",
+        "integration": "scheduling:write",
+        "people": "`forecasts.manage`",
+        "feature": "scheduling.forecasting",
+        "description": "Adjust a day's forecast by a percentage"
+      },
+      {
+        "method": "GET",
+        "path": "/schedules",
+        "integration": "scheduling:read",
+        "people": "`schedules.read`",
+        "feature": "scheduling",
+        "description": "A location's schedule with hours and estimated cost"
+      },
+      {
+        "method": "POST",
+        "path": "/schedules:publish",
+        "integration": "scheduling:write",
+        "people": "`schedules.publish`",
+        "feature": "scheduling",
+        "description": "Publish draft shifts for a location and period"
+      },
+      {
+        "method": "GET",
+        "path": "/shift-swaps",
+        "integration": "scheduling:read",
+        "people": "`schedules.read`",
+        "feature": "scheduling.shift_swaps",
+        "description": "List shift swap requests"
+      },
+      {
+        "method": "POST",
+        "path": "/shift-swaps",
+        "integration": "scheduling:write",
+        "people": "`schedules.manage`",
+        "feature": "scheduling.shift_swaps",
+        "description": "Request a shift swap"
+      },
+      {
+        "method": "POST",
+        "path": "/shift-swaps/{id}:approve",
+        "integration": "scheduling:write",
+        "people": "`shift_swaps.approve`",
+        "feature": "scheduling.shift_swaps",
+        "description": "Approve a swap (reassigns the shift)"
+      },
+      {
+        "method": "POST",
+        "path": "/shift-swaps/{id}:reject",
+        "integration": "scheduling:write",
+        "people": "`shift_swaps.approve`",
+        "feature": "scheduling.shift_swaps",
+        "description": "Reject a swap"
+      },
+      {
+        "method": "GET",
+        "path": "/shifts",
+        "integration": "scheduling:read",
+        "people": "`schedules.read`",
+        "feature": "scheduling",
+        "description": "List shifts"
+      },
+      {
+        "method": "POST",
+        "path": "/shifts",
+        "integration": "scheduling:write",
+        "people": "`schedules.manage`",
+        "feature": "scheduling",
+        "description": "Create a shift"
+      },
+      {
+        "method": "GET",
+        "path": "/shifts/external/{externalId}",
+        "integration": "scheduling:read",
+        "people": "`schedules.read`",
+        "feature": "scheduling",
+        "description": "Get a shift by external ID"
+      },
+      {
+        "method": "PUT",
+        "path": "/shifts/external/{externalId}",
+        "integration": "scheduling:write",
+        "people": "`schedules.manage`",
+        "feature": "scheduling",
+        "description": "Create or replace a shift by external ID"
+      },
+      {
+        "method": "GET",
+        "path": "/shifts/{id}",
+        "integration": "scheduling:read",
+        "people": "`schedules.read`",
+        "feature": "scheduling",
+        "description": "Get a shift"
+      },
+      {
+        "method": "PATCH",
+        "path": "/shifts/{id}",
+        "integration": "scheduling:write",
+        "people": "`schedules.manage`",
+        "feature": "scheduling",
+        "description": "Update a shift (partial)"
+      },
+      {
+        "method": "POST",
+        "path": "/shifts/{id}:claim",
+        "integration": "scheduling:write",
+        "people": "`schedules.manage`",
+        "feature": "scheduling.open_shifts",
+        "description": "Assign an open shift to an employee"
+      },
+      {
+        "method": "GET",
+        "path": "/staffing-needs",
+        "integration": "scheduling:read",
+        "people": "`schedules.read`",
+        "feature": "scheduling",
+        "description": "Staff needed vs scheduled, hour by hour"
+      },
+      {
+        "method": "GET",
+        "path": "/staffing-rules",
+        "integration": "scheduling:read",
+        "people": "`schedules.read`",
+        "feature": "scheduling",
+        "description": "List staffing rules"
+      },
+      {
+        "method": "POST",
+        "path": "/staffing-rules",
+        "integration": "scheduling:write",
+        "people": "`staffing_rules.manage`",
+        "feature": "scheduling",
+        "description": "Create a staffing rule"
+      },
+      {
+        "method": "GET",
+        "path": "/staffing-rules/{id}",
+        "integration": "scheduling:read",
+        "people": "`schedules.read`",
+        "feature": "scheduling",
+        "description": "Get a staffing rule"
+      },
+      {
+        "method": "PATCH",
+        "path": "/staffing-rules/{id}",
+        "integration": "scheduling:write",
+        "people": "`staffing_rules.manage`",
+        "feature": "scheduling",
+        "description": "Update a staffing rule (partial)"
+      },
+      {
+        "method": "DELETE",
+        "path": "/staffing-rules/{id}",
+        "integration": "scheduling:write",
+        "people": "`staffing_rules.manage`",
+        "feature": "scheduling",
+        "description": "Archive a staffing rule"
+      }
+    ]
+  },
+  {
+    "title": "Cash Management",
+    "slug": "cash",
+    "intro": "",
+    "endpoints": [
+      {
+        "method": "POST",
+        "path": "/cash/bank-transactions",
+        "integration": "cash:write",
+        "people": null,
+        "feature": "cash",
+        "description": "Send bank transactions for deposit verification"
+      },
+      {
+        "method": "GET",
+        "path": "/cash/business-days",
+        "integration": "cash:read",
+        "people": "`cash.read`",
+        "feature": "cash",
+        "description": "Daily cash summary for a location"
+      },
+      {
+        "method": "POST",
+        "path": "/cash/business-days/{locationId}/{date}:close",
+        "integration": "cash:write",
+        "people": "`cash.manage`",
+        "feature": "cash",
+        "description": "Close a business day"
+      },
+      {
+        "method": "GET",
+        "path": "/cash/counts",
+        "integration": "cash:read",
+        "people": "`cash.read`",
+        "feature": "cash",
+        "description": "List counts"
+      },
+      {
+        "method": "POST",
+        "path": "/cash/counts",
+        "integration": "cash:write",
+        "people": "`cash.count`",
+        "feature": "cash",
+        "description": "Record a drawer, skim or safe count"
+      },
+      {
+        "method": "GET",
+        "path": "/cash/deposits",
+        "integration": "cash:read",
+        "people": "`cash.read`",
+        "feature": "cash",
+        "description": "List deposits"
+      },
+      {
+        "method": "POST",
+        "path": "/cash/deposits",
+        "integration": "cash:write",
+        "people": "`cash.deposits`",
+        "feature": "cash",
+        "description": "Record a bank deposit"
+      },
+      {
+        "method": "POST",
+        "path": "/cash/settlements",
+        "integration": "cash:write",
+        "people": null,
+        "feature": "cash",
+        "description": "Send card processor and platform payouts"
+      },
+      {
+        "method": "POST",
+        "path": "/cash/tenders",
+        "integration": "cash:write",
+        "people": null,
+        "feature": "cash",
+        "description": "Send tender totals per drawer or shift from the POS"
+      }
+    ]
+  },
+  {
+    "title": "Inventory",
+    "slug": "inventory",
+    "intro": "",
+    "endpoints": [
+      {
+        "method": "POST",
+        "path": "/inventory/adjustments",
+        "integration": "inventory:write",
+        "people": "`inventory.adjust`",
+        "feature": "inventory",
+        "description": "Adjust stock"
+      },
+      {
+        "method": "POST",
+        "path": "/inventory/waste",
+        "integration": "inventory:write",
+        "people": "`waste.record`",
+        "feature": "inventory.waste",
+        "description": "Record waste or shrink"
+      },
+      {
+        "method": "GET",
+        "path": "/items",
+        "integration": "inventory:read",
+        "people": "`inventory.read`",
+        "feature": "inventory",
+        "description": "List items"
+      },
+      {
+        "method": "POST",
+        "path": "/items",
+        "integration": "inventory:write",
+        "people": "`items.manage`",
+        "feature": "inventory",
+        "description": "Create an item"
+      },
+      {
+        "method": "GET",
+        "path": "/items/external/{externalId}",
+        "integration": "inventory:read",
+        "people": "`inventory.read`",
+        "feature": "inventory",
+        "description": "Get an item by external ID"
+      },
+      {
+        "method": "PUT",
+        "path": "/items/external/{externalId}",
+        "integration": "inventory:write",
+        "people": "`items.manage`",
+        "feature": "inventory",
+        "description": "Create or replace an item by external ID"
+      },
+      {
+        "method": "GET",
+        "path": "/items/{id}",
+        "integration": "inventory:read",
+        "people": "`inventory.read`",
+        "feature": "inventory",
+        "description": "Get an item"
+      },
+      {
+        "method": "PATCH",
+        "path": "/items/{id}",
+        "integration": "inventory:write",
+        "people": "`items.manage`",
+        "feature": "inventory",
+        "description": "Update an item (partial)"
+      },
+      {
+        "method": "GET",
+        "path": "/stock-counts",
+        "integration": "inventory:read",
+        "people": "`inventory.read`",
+        "feature": "inventory",
+        "description": "List stock counts"
+      },
+      {
+        "method": "POST",
+        "path": "/stock-counts",
+        "integration": "inventory:write",
+        "people": "`stock_counts.count`",
+        "feature": "inventory",
+        "description": "Enter a stock count"
+      },
+      {
+        "method": "GET",
+        "path": "/stock-counts/{id}",
+        "integration": "inventory:read",
+        "people": "`inventory.read`",
+        "feature": "inventory",
+        "description": "Get a stock count with variances"
+      },
+      {
+        "method": "POST",
+        "path": "/stock-counts/{id}:cancel",
+        "integration": "inventory:write",
+        "people": "`stock_counts.manage`",
+        "feature": "inventory",
+        "description": "Cancel an open count"
+      },
+      {
+        "method": "POST",
+        "path": "/stock-counts/{id}:post",
+        "integration": "inventory:write",
+        "people": "`stock_counts.manage`",
+        "feature": "inventory",
+        "description": "Post a count to the stock ledger"
+      },
+      {
+        "method": "GET",
+        "path": "/stock-levels",
+        "integration": "inventory:read",
+        "people": "`inventory.read`",
+        "feature": "inventory",
+        "description": "Stock on hand, reserved and available"
+      },
+      {
+        "method": "POST",
+        "path": "/stock-levels:configure",
+        "integration": "inventory:write",
+        "people": "`items.manage`",
+        "feature": "inventory",
+        "description": "Set par level and reorder point for an item at a location"
+      },
+      {
+        "method": "GET",
+        "path": "/stock-movements",
+        "integration": "inventory:read",
+        "people": "`inventory.read`",
+        "feature": "inventory",
+        "description": "The stock ledger"
+      },
+      {
+        "method": "GET",
+        "path": "/transfers",
+        "integration": "inventory:read",
+        "people": "`inventory.read`",
+        "feature": "inventory.transfers",
+        "description": "List transfers"
+      },
+      {
+        "method": "POST",
+        "path": "/transfers",
+        "integration": "inventory:write",
+        "people": "`transfers.manage`",
+        "feature": "inventory.transfers",
+        "description": "Send stock to another location"
+      },
+      {
+        "method": "GET",
+        "path": "/transfers/{id}",
+        "integration": "inventory:read",
+        "people": "`inventory.read`",
+        "feature": "inventory.transfers",
+        "description": "Get a transfer"
+      },
+      {
+        "method": "POST",
+        "path": "/transfers/{id}:receive",
+        "integration": "inventory:write",
+        "people": "`transfers.manage`",
+        "feature": "inventory.transfers",
+        "description": "Confirm what arrived"
+      },
+      {
+        "method": "GET",
+        "path": "/usage-recipes/{itemId}",
+        "integration": "inventory:read",
+        "people": "`inventory.read`",
+        "feature": "inventory.usage_recipes",
+        "description": "What one unit of a sold item uses"
+      },
+      {
+        "method": "PUT",
+        "path": "/usage-recipes/{itemId}",
+        "integration": "inventory:write",
+        "people": "`usage_recipes.manage`",
+        "feature": "inventory.usage_recipes",
+        "description": "Replace a usage recipe"
+      }
+    ]
+  },
+  {
+    "title": "Purchasing & Ordering",
+    "slug": "purchasing",
+    "intro": "",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/purchase-orders",
+        "integration": "purchasing:read",
+        "people": "`purchasing.read`",
+        "feature": "purchasing",
+        "description": "List purchase orders"
+      },
+      {
+        "method": "POST",
+        "path": "/purchase-orders",
+        "integration": "purchasing:write",
+        "people": "`orders.create`",
+        "feature": "purchasing",
+        "description": "Create a purchase order"
+      },
+      {
+        "method": "GET",
+        "path": "/purchase-orders/{id}",
+        "integration": "purchasing:read",
+        "people": "`purchasing.read`",
+        "feature": "purchasing",
+        "description": "Get a purchase order"
+      },
+      {
+        "method": "POST",
+        "path": "/purchase-orders/{id}:approve",
+        "integration": "purchasing:write",
+        "people": "`purchase_orders.approve`",
+        "feature": "purchasing",
+        "description": "Approve a purchase order"
+      },
+      {
+        "method": "POST",
+        "path": "/purchase-orders/{id}:cancel",
+        "integration": "purchasing:write",
+        "people": "`orders.create`",
+        "feature": "purchasing",
+        "description": "Cancel a purchase order"
+      },
+      {
+        "method": "POST",
+        "path": "/purchase-orders/{id}:receive",
+        "integration": "purchasing:write",
+        "people": "`goods_receipts.create`",
+        "feature": "purchasing",
+        "description": "Receive a delivery"
+      },
+      {
+        "method": "POST",
+        "path": "/purchase-orders/{id}:send",
+        "integration": "purchasing:write",
+        "people": "`orders.create`",
+        "feature": "purchasing",
+        "description": "Mark a purchase order as sent to the supplier"
+      },
+      {
+        "method": "GET",
+        "path": "/suggested-orders",
+        "integration": "purchasing:read",
+        "people": "`orders.create`",
+        "feature": "purchasing.suggested_orders",
+        "description": "Suggested order for a supplier and location"
+      },
+      {
+        "method": "GET",
+        "path": "/supplier-invoices",
+        "integration": "purchasing:read",
+        "people": "`purchasing.read`",
+        "feature": "purchasing",
+        "description": "List supplier invoices"
+      },
+      {
+        "method": "POST",
+        "path": "/supplier-invoices",
+        "integration": "purchasing:write",
+        "people": "`invoices.match`",
+        "feature": "purchasing",
+        "description": "Record a supplier invoice and match it"
+      },
+      {
+        "method": "POST",
+        "path": "/supplier-invoices/{id}:approve",
+        "integration": "purchasing:write",
+        "people": "`invoices.match`",
+        "feature": "purchasing.invoice_matching",
+        "description": "Approve a supplier invoice (accept any differences)"
+      },
+      {
+        "method": "POST",
+        "path": "/supplier-invoices/{id}:dispute",
+        "integration": "purchasing:write",
+        "people": "`invoices.match`",
+        "feature": "purchasing.invoice_matching",
+        "description": "Dispute a supplier invoice"
+      },
+      {
+        "method": "GET",
+        "path": "/suppliers",
+        "integration": "purchasing:read",
+        "people": "`purchasing.read`",
+        "feature": "purchasing",
+        "description": "List suppliers"
+      },
+      {
+        "method": "POST",
+        "path": "/suppliers",
+        "integration": "purchasing:write",
+        "people": "`suppliers.manage`",
+        "feature": "purchasing",
+        "description": "Create a supplier"
+      },
+      {
+        "method": "GET",
+        "path": "/suppliers/external/{externalId}",
+        "integration": "purchasing:read",
+        "people": "`purchasing.read`",
+        "feature": "purchasing",
+        "description": "Get a supplier by external ID"
+      },
+      {
+        "method": "PUT",
+        "path": "/suppliers/external/{externalId}",
+        "integration": "purchasing:write",
+        "people": "`suppliers.manage`",
+        "feature": "purchasing",
+        "description": "Create or replace a supplier by external ID"
+      },
+      {
+        "method": "GET",
+        "path": "/suppliers/{id}",
+        "integration": "purchasing:read",
+        "people": "`purchasing.read`",
+        "feature": "purchasing",
+        "description": "Get a supplier"
+      },
+      {
+        "method": "PATCH",
+        "path": "/suppliers/{id}",
+        "integration": "purchasing:write",
+        "people": "`suppliers.manage`",
+        "feature": "purchasing",
+        "description": "Update a supplier (partial)"
+      },
+      {
+        "method": "DELETE",
+        "path": "/suppliers/{id}",
+        "integration": "purchasing:write",
+        "people": "`suppliers.manage`",
+        "feature": "purchasing",
+        "description": "Archive a supplier"
+      },
+      {
+        "method": "GET",
+        "path": "/suppliers/{id}/catalog",
+        "integration": "purchasing:read",
+        "people": "`purchasing.read`",
+        "feature": "purchasing",
+        "description": "A supplier's catalog (order guide)"
+      },
+      {
+        "method": "PUT",
+        "path": "/suppliers/{id}/catalog",
+        "integration": "purchasing:write",
+        "people": "`suppliers.manage`",
+        "feature": "purchasing",
+        "description": "Replace a supplier's catalog"
+      }
+    ]
+  },
+  {
+    "title": "Sales",
+    "slug": "sales",
+    "intro": "",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/customers",
+        "integration": "sales:read",
+        "people": "`sales.read`",
+        "feature": "sales.orders",
+        "description": "List customers"
+      },
+      {
+        "method": "POST",
+        "path": "/customers",
+        "integration": "sales:write",
+        "people": "`customers.manage`",
+        "feature": "sales.orders",
+        "description": "Create a customer"
+      },
+      {
+        "method": "GET",
+        "path": "/customers/external/{externalId}",
+        "integration": "sales:read",
+        "people": "`sales.read`",
+        "feature": "sales.orders",
+        "description": "Get a customer by external ID"
+      },
+      {
+        "method": "PUT",
+        "path": "/customers/external/{externalId}",
+        "integration": "sales:write",
+        "people": "`customers.manage`",
+        "feature": "sales.orders",
+        "description": "Create or replace a customer by external ID"
+      },
+      {
+        "method": "GET",
+        "path": "/customers/{id}",
+        "integration": "sales:read",
+        "people": "`sales.read`",
+        "feature": "sales.orders",
+        "description": "Get a customer"
+      },
+      {
+        "method": "PATCH",
+        "path": "/customers/{id}",
+        "integration": "sales:write",
+        "people": "`customers.manage`",
+        "feature": "sales.orders",
+        "description": "Update a customer (partial)"
+      },
+      {
+        "method": "DELETE",
+        "path": "/customers/{id}",
+        "integration": "sales:write",
+        "people": "`customers.manage`",
+        "feature": "sales.orders",
+        "description": "Archive a customer"
+      },
+      {
+        "method": "GET",
+        "path": "/invoices",
+        "integration": "sales:read",
+        "people": "`sales.read`",
+        "feature": "sales.invoicing",
+        "description": "List invoices"
+      },
+      {
+        "method": "GET",
+        "path": "/invoices/{id}",
+        "integration": "sales:read",
+        "people": "`sales.read`",
+        "feature": "sales.invoicing",
+        "description": "Get an invoice"
+      },
+      {
+        "method": "GET",
+        "path": "/invoices/{id}/pdf",
+        "integration": "sales:read",
+        "people": "`sales.read`",
+        "feature": "sales.invoicing",
+        "description": "Download an invoice as PDF"
+      },
+      {
+        "method": "POST",
+        "path": "/invoices/{id}:pay",
+        "integration": "sales:write",
+        "people": "`invoices.issue`",
+        "feature": "sales.invoicing",
+        "description": "Record payment of an invoice"
+      },
+      {
+        "method": "POST",
+        "path": "/invoices/{id}:void",
+        "integration": "sales:write",
+        "people": "`invoices.issue`",
+        "feature": "sales.invoicing",
+        "description": "Void an invoice"
+      },
+      {
+        "method": "GET",
+        "path": "/sales-orders",
+        "integration": "sales:read",
+        "people": "`sales.read`",
+        "feature": "sales.orders",
+        "description": "List sales orders"
+      },
+      {
+        "method": "POST",
+        "path": "/sales-orders",
+        "integration": "sales:write",
+        "people": "`sales_orders.manage`",
+        "feature": "sales.orders",
+        "description": "Create a sales order (reserves stock)"
+      },
+      {
+        "method": "PUT",
+        "path": "/sales-orders/external/{externalId}",
+        "integration": "sales:write",
+        "people": "`sales_orders.manage`",
+        "feature": "sales.orders",
+        "description": "Create or update an order from another system (e.g. an online store)"
+      },
+      {
+        "method": "GET",
+        "path": "/sales-orders/{id}",
+        "integration": "sales:read",
+        "people": "`sales.read`",
+        "feature": "sales.orders",
+        "description": "Get a sales order"
+      },
+      {
+        "method": "POST",
+        "path": "/sales-orders/{id}:cancel",
+        "integration": "sales:write",
+        "people": "`sales_orders.manage`",
+        "feature": "sales.orders",
+        "description": "Cancel an order (releases reserved stock)"
+      },
+      {
+        "method": "POST",
+        "path": "/sales-orders/{id}:invoice",
+        "integration": "sales:write",
+        "people": "`invoices.issue`",
+        "feature": "sales.invoicing",
+        "description": "Issue an invoice for an order"
+      },
+      {
+        "method": "POST",
+        "path": "/sales-orders/{id}:ship",
+        "integration": "sales:write",
+        "people": "`sales_orders.manage`",
+        "feature": "sales.orders",
+        "description": "Ship an order (deducts stock)"
+      },
+      {
+        "method": "GET",
+        "path": "/sales-summaries",
+        "integration": "sales:read",
+        "people": "`sales.read`",
+        "feature": "sales.feeds",
+        "description": "List sales summaries"
+      },
+      {
+        "method": "POST",
+        "path": "/sales-summaries",
+        "integration": "sales:write",
+        "people": null,
+        "feature": "sales.feeds",
+        "description": "Send hourly or daily sales totals"
+      },
+      {
+        "method": "GET",
+        "path": "/sales/transactions",
+        "integration": "sales:read",
+        "people": "`sales.read`",
+        "feature": "sales.feeds",
+        "description": "List sales transactions"
+      },
+      {
+        "method": "POST",
+        "path": "/sales/transactions:batch",
+        "integration": "sales:write",
+        "people": null,
+        "feature": "sales.feeds",
+        "description": "Send sales transactions from a POS or online store"
+      },
+      {
+        "method": "GET",
+        "path": "/sales/unmapped-items",
+        "integration": "sales:read",
+        "people": "`sales.read`",
+        "feature": "sales.feeds",
+        "description": "Items in sales feeds that aren't linked to a PurrOS item"
+      },
+      {
+        "method": "POST",
+        "path": "/sales/unmapped-items:map",
+        "integration": "sales:write",
+        "people": "`sales.unmapped.resolve`",
+        "feature": "sales.feeds",
+        "description": "Link an unmapped item reference to a PurrOS item"
+      }
+    ]
+  },
+  {
+    "title": "Forms, Checklists & Compliance",
+    "slug": "operations",
+    "intro": "",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/audits",
+        "integration": "operations:read",
+        "people": "`audits.read`",
+        "feature": "operations.audits",
+        "description": "List scored audits"
+      },
+      {
+        "method": "GET",
+        "path": "/corrective-actions",
+        "integration": "operations:read",
+        "people": "`corrective_actions.manage`",
+        "feature": "operations.corrective_actions",
+        "description": "List corrective actions"
+      },
+      {
+        "method": "POST",
+        "path": "/corrective-actions",
+        "integration": "operations:write",
+        "people": "`corrective_actions.manage`",
+        "feature": "operations.corrective_actions",
+        "description": "Create a corrective action"
+      },
+      {
+        "method": "GET",
+        "path": "/corrective-actions/{id}",
+        "integration": "operations:read",
+        "people": "`corrective_actions.manage`",
+        "feature": "operations.corrective_actions",
+        "description": "Get a corrective action"
+      },
+      {
+        "method": "PATCH",
+        "path": "/corrective-actions/{id}",
+        "integration": "operations:write",
+        "people": "`corrective_actions.manage`",
+        "feature": "operations.corrective_actions",
+        "description": "Update a corrective action (partial)"
+      },
+      {
+        "method": "POST",
+        "path": "/corrective-actions/{id}:close",
+        "integration": "operations:write",
+        "people": "`corrective_actions.manage`",
+        "feature": "operations.corrective_actions",
+        "description": "Close a corrective action with its resolution"
+      },
+      {
+        "method": "GET",
+        "path": "/form-submissions",
+        "integration": "operations:read",
+        "people": "`checklists.manage`",
+        "feature": "operations",
+        "description": "List submissions"
+      },
+      {
+        "method": "POST",
+        "path": "/form-submissions",
+        "integration": "operations:write",
+        "people": "`checklists.complete`",
+        "feature": "operations",
+        "description": "Submit a completed form or checklist"
+      },
+      {
+        "method": "GET",
+        "path": "/form-submissions/{id}",
+        "integration": "operations:read",
+        "people": "`checklists.manage`",
+        "feature": "operations",
+        "description": "Get a submission with per-question results"
+      },
+      {
+        "method": "GET",
+        "path": "/forms",
+        "integration": "operations:read",
+        "people": "`checklists.complete`",
+        "feature": "operations",
+        "description": "List forms"
+      },
+      {
+        "method": "POST",
+        "path": "/forms",
+        "integration": "operations:write",
+        "people": "`forms.manage`",
+        "feature": "operations",
+        "description": "Create a form"
+      },
+      {
+        "method": "GET",
+        "path": "/forms/external/{externalId}",
+        "integration": "operations:read",
+        "people": "`checklists.complete`",
+        "feature": "operations",
+        "description": "Get a form by external ID"
+      },
+      {
+        "method": "PUT",
+        "path": "/forms/external/{externalId}",
+        "integration": "operations:write",
+        "people": "`forms.manage`",
+        "feature": "operations",
+        "description": "Create or replace a form by external ID"
+      },
+      {
+        "method": "GET",
+        "path": "/forms/{id}",
+        "integration": "operations:read",
+        "people": "`checklists.complete`",
+        "feature": "operations",
+        "description": "Get a form"
+      },
+      {
+        "method": "PATCH",
+        "path": "/forms/{id}",
+        "integration": "operations:write",
+        "people": "`forms.manage`",
+        "feature": "operations",
+        "description": "Update a form (partial)"
+      },
+      {
+        "method": "DELETE",
+        "path": "/forms/{id}",
+        "integration": "operations:write",
+        "people": "`forms.manage`",
+        "feature": "operations",
+        "description": "Archive a form"
+      },
+      {
+        "method": "POST",
+        "path": "/sensor-readings",
+        "integration": "operations:write",
+        "people": null,
+        "feature": "operations.sensors",
+        "description": "Send sensor readings"
+      },
+      {
+        "method": "GET",
+        "path": "/sensors",
+        "integration": "operations:read",
+        "people": "`sensors.manage`",
+        "feature": "operations.sensors",
+        "description": "List sensors"
+      },
+      {
+        "method": "POST",
+        "path": "/sensors",
+        "integration": "operations:write",
+        "people": "`sensors.manage`",
+        "feature": "operations.sensors",
+        "description": "Create a sensor"
+      },
+      {
+        "method": "GET",
+        "path": "/sensors/external/{externalId}",
+        "integration": "operations:read",
+        "people": "`sensors.manage`",
+        "feature": "operations.sensors",
+        "description": "Get a sensor by external ID"
+      },
+      {
+        "method": "PUT",
+        "path": "/sensors/external/{externalId}",
+        "integration": "operations:write",
+        "people": "`sensors.manage`",
+        "feature": "operations.sensors",
+        "description": "Create or replace a sensor by external ID"
+      },
+      {
+        "method": "GET",
+        "path": "/sensors/{id}",
+        "integration": "operations:read",
+        "people": "`sensors.manage`",
+        "feature": "operations.sensors",
+        "description": "Get a sensor"
+      },
+      {
+        "method": "PATCH",
+        "path": "/sensors/{id}",
+        "integration": "operations:write",
+        "people": "`sensors.manage`",
+        "feature": "operations.sensors",
+        "description": "Update a sensor (partial)"
+      },
+      {
+        "method": "DELETE",
+        "path": "/sensors/{id}",
+        "integration": "operations:write",
+        "people": "`sensors.manage`",
+        "feature": "operations.sensors",
+        "description": "Archive a sensor"
+      },
+      {
+        "method": "GET",
+        "path": "/sensors/{id}/readings",
+        "integration": "operations:read",
+        "people": "`sensors.manage`",
+        "feature": "operations.sensors",
+        "description": "Recent readings for a sensor (newest first, up to 1,000)"
+      }
+    ]
+  },
+  {
+    "title": "Equipment & Assets",
+    "slug": "equipment",
+    "intro": "",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/assets",
+        "integration": "equipment:read",
+        "people": "`equipment.read`",
+        "feature": "equipment",
+        "description": "List assets"
+      },
+      {
+        "method": "POST",
+        "path": "/assets",
+        "integration": "equipment:write",
+        "people": "`equipment.manage`",
+        "feature": "equipment",
+        "description": "Create an asset"
+      },
+      {
+        "method": "GET",
+        "path": "/assets/external/{externalId}",
+        "integration": "equipment:read",
+        "people": "`equipment.read`",
+        "feature": "equipment",
+        "description": "Get an asset by external ID"
+      },
+      {
+        "method": "PUT",
+        "path": "/assets/external/{externalId}",
+        "integration": "equipment:write",
+        "people": "`equipment.manage`",
+        "feature": "equipment",
+        "description": "Create or replace an asset by external ID"
+      },
+      {
+        "method": "GET",
+        "path": "/assets/{id}",
+        "integration": "equipment:read",
+        "people": "`equipment.read`",
+        "feature": "equipment",
+        "description": "Get an asset"
+      },
+      {
+        "method": "PATCH",
+        "path": "/assets/{id}",
+        "integration": "equipment:write",
+        "people": "`equipment.manage`",
+        "feature": "equipment",
+        "description": "Update an asset (partial)"
+      },
+      {
+        "method": "DELETE",
+        "path": "/assets/{id}",
+        "integration": "equipment:write",
+        "people": "`equipment.manage`",
+        "feature": "equipment",
+        "description": "Archive an asset"
+      },
+      {
+        "method": "POST",
+        "path": "/assets/{id}/meter-readings",
+        "integration": "equipment:write",
+        "people": "`equipment.manage`",
+        "feature": "equipment",
+        "description": "Record a meter reading (hours, km…)"
+      },
+      {
+        "method": "POST",
+        "path": "/assets/{id}:maintained",
+        "integration": "equipment:write",
+        "people": "`equipment.manage`",
+        "feature": "equipment.maintenance",
+        "description": "Record that maintenance was done"
+      },
+      {
+        "method": "GET",
+        "path": "/maintenance/due",
+        "integration": "equipment:read",
+        "people": "`equipment.read`",
+        "feature": "equipment.maintenance",
+        "description": "Assets due for maintenance by date or meter"
+      },
+      {
+        "method": "GET",
+        "path": "/work-orders",
+        "integration": "equipment:read",
+        "people": "`equipment.read`",
+        "feature": "equipment.work_orders",
+        "description": "List work orders"
+      },
+      {
+        "method": "POST",
+        "path": "/work-orders",
+        "integration": "equipment:write",
+        "people": "`work_orders.create`",
+        "feature": "equipment.work_orders",
+        "description": "Create a work order"
+      },
+      {
+        "method": "GET",
+        "path": "/work-orders/external/{externalId}",
+        "integration": "equipment:read",
+        "people": "`equipment.read`",
+        "feature": "equipment.work_orders",
+        "description": "Get a work order by external ID"
+      },
+      {
+        "method": "PUT",
+        "path": "/work-orders/external/{externalId}",
+        "integration": "equipment:write",
+        "people": "`work_orders.manage`",
+        "feature": "equipment.work_orders",
+        "description": "Create or replace a work order by external ID"
+      },
+      {
+        "method": "GET",
+        "path": "/work-orders/{id}",
+        "integration": "equipment:read",
+        "people": "`equipment.read`",
+        "feature": "equipment.work_orders",
+        "description": "Get a work order"
+      },
+      {
+        "method": "PATCH",
+        "path": "/work-orders/{id}",
+        "integration": "equipment:write",
+        "people": "`work_orders.manage`",
+        "feature": "equipment.work_orders",
+        "description": "Update a work order (partial)"
+      }
+    ]
+  },
+  {
+    "title": "Communication",
+    "slug": "communication",
+    "intro": "",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/announcements",
+        "integration": "communication:read",
+        "people": "anyone",
+        "feature": "communication.announcements",
+        "description": "List announcements"
+      },
+      {
+        "method": "POST",
+        "path": "/announcements",
+        "integration": "communication:write",
+        "people": "`announcements.send`",
+        "feature": "communication.announcements",
+        "description": "Create an announcement"
+      },
+      {
+        "method": "GET",
+        "path": "/announcements/{id}",
+        "integration": "communication:read",
+        "people": "anyone",
+        "feature": "communication.announcements",
+        "description": "Get an announcement"
+      },
+      {
+        "method": "PATCH",
+        "path": "/announcements/{id}",
+        "integration": "communication:write",
+        "people": "`announcements.send`",
+        "feature": "communication.announcements",
+        "description": "Update an announcement (partial)"
+      },
+      {
+        "method": "DELETE",
+        "path": "/announcements/{id}",
+        "integration": "communication:write",
+        "people": "`announcements.send`",
+        "feature": "communication.announcements",
+        "description": "Archive an announcement"
+      },
+      {
+        "method": "GET",
+        "path": "/announcements/{id}/acknowledgments",
+        "integration": "communication:read",
+        "people": "`announcements.send`",
+        "feature": "communication.announcements",
+        "description": "Who has acknowledged an announcement"
+      },
+      {
+        "method": "POST",
+        "path": "/announcements/{id}:acknowledge",
+        "integration": "communication:write",
+        "people": "`announcements.send`",
+        "feature": "communication.announcements",
+        "description": "Record that an employee read an announcement"
+      },
+      {
+        "method": "GET",
+        "path": "/calendar-events",
+        "integration": "communication:read",
+        "people": "anyone",
+        "feature": "communication.calendar",
+        "description": "List calendar events"
+      },
+      {
+        "method": "POST",
+        "path": "/calendar-events",
+        "integration": "communication:write",
+        "people": "`calendar.manage`",
+        "feature": "communication.calendar",
+        "description": "Create a calendar event"
+      },
+      {
+        "method": "GET",
+        "path": "/calendar-events/external/{externalId}",
+        "integration": "communication:read",
+        "people": "anyone",
+        "feature": "communication.calendar",
+        "description": "Get a calendar event by external ID"
+      },
+      {
+        "method": "PUT",
+        "path": "/calendar-events/external/{externalId}",
+        "integration": "communication:write",
+        "people": "`calendar.manage`",
+        "feature": "communication.calendar",
+        "description": "Create or replace a calendar event by external ID"
+      },
+      {
+        "method": "GET",
+        "path": "/calendar-events/{id}",
+        "integration": "communication:read",
+        "people": "anyone",
+        "feature": "communication.calendar",
+        "description": "Get a calendar event"
+      },
+      {
+        "method": "PATCH",
+        "path": "/calendar-events/{id}",
+        "integration": "communication:write",
+        "people": "`calendar.manage`",
+        "feature": "communication.calendar",
+        "description": "Update a calendar event (partial)"
+      },
+      {
+        "method": "DELETE",
+        "path": "/calendar-events/{id}",
+        "integration": "communication:write",
+        "people": "`calendar.manage`",
+        "feature": "communication.calendar",
+        "description": "Archive a calendar event"
+      }
+    ]
+  },
+  {
+    "title": "Team Displays",
+    "slug": "displays",
+    "intro": "",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/display-metrics",
+        "integration": "reports:read",
+        "people": "anyone",
+        "feature": "displays",
+        "description": "Live display metrics"
+      },
+      {
+        "method": "POST",
+        "path": "/display-metrics",
+        "integration": "reports:write",
+        "people": null,
+        "feature": "displays",
+        "description": "Push live numbers to team displays"
+      },
+      {
+        "method": "GET",
+        "path": "/recognitions",
+        "integration": "communication:read",
+        "people": "anyone",
+        "feature": "displays.gamification",
+        "description": "Recent shout-outs (newest first)"
+      },
+      {
+        "method": "POST",
+        "path": "/recognitions",
+        "integration": "communication:write",
+        "people": "`recognition.give`",
+        "feature": "displays.gamification",
+        "description": "Post a shout-out"
+      }
+    ]
+  },
+  {
+    "title": "Reports & Insights",
+    "slug": "insights",
+    "intro": "",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/alert-rules",
+        "integration": "reports:read",
+        "people": "`reports.read`",
+        "feature": "insights",
+        "description": "List alert rules"
+      },
+      {
+        "method": "POST",
+        "path": "/alert-rules",
+        "integration": "reports:write",
+        "people": "`alerts.manage`",
+        "feature": "insights",
+        "description": "Create an alert rule"
+      },
+      {
+        "method": "GET",
+        "path": "/alert-rules/{id}",
+        "integration": "reports:read",
+        "people": "`reports.read`",
+        "feature": "insights",
+        "description": "Get an alert rule"
+      },
+      {
+        "method": "PATCH",
+        "path": "/alert-rules/{id}",
+        "integration": "reports:write",
+        "people": "`alerts.manage`",
+        "feature": "insights",
+        "description": "Update an alert rule (partial)"
+      },
+      {
+        "method": "DELETE",
+        "path": "/alert-rules/{id}",
+        "integration": "reports:write",
+        "people": "`alerts.manage`",
+        "feature": "insights",
+        "description": "Archive an alert rule"
+      },
+      {
+        "method": "GET",
+        "path": "/kpis",
+        "integration": "reports:read",
+        "people": "`reports.read`",
+        "feature": "insights",
+        "description": "Headline KPIs for a date range"
+      },
+      {
+        "method": "GET",
+        "path": "/recommendations",
+        "integration": "reports:read",
+        "people": "`recommendations.read`",
+        "feature": "insights.recommendations",
+        "description": "Recommended actions"
+      },
+      {
+        "method": "GET",
+        "path": "/reports",
+        "integration": "reports:read",
+        "people": "`reports.read`",
+        "feature": "insights",
+        "description": "List the available reports"
+      },
+      {
+        "method": "GET",
+        "path": "/reports/{key}",
+        "integration": "reports:read",
+        "people": "`reports.read`",
+        "feature": "insights",
+        "description": "Run a report"
+      }
+    ]
+  },
+  {
+    "title": "Employee Area",
+    "slug": "employee-area",
+    "intro": "",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/me/activity",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Changes made to your record: who, what and when"
+      },
+      {
+        "method": "GET",
+        "path": "/me/announcements",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Announcements for you, newest first"
+      },
+      {
+        "method": "POST",
+        "path": "/me/announcements/{id}:acknowledge",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Acknowledge an announcement"
+      },
+      {
+        "method": "GET",
+        "path": "/me/availability",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Your availability"
+      },
+      {
+        "method": "POST",
+        "path": "/me/availability",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Add an availability window"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/availability/{id}",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Remove an availability window"
+      },
+      {
+        "method": "GET",
+        "path": "/me/documents",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Documents shared with you"
+      },
+      {
+        "method": "GET",
+        "path": "/me/export",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Download everything PurrOS stores about you (ZIP of JSON and CSV)"
+      },
+      {
+        "method": "GET",
+        "path": "/me/open-shifts",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Published open shifts you can pick up"
+      },
+      {
+        "method": "GET",
+        "path": "/me/pay",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Your pay rate history and estimated gross pay per pay period"
+      },
+      {
+        "method": "GET",
+        "path": "/me/payslips",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Your payslips"
+      },
+      {
+        "method": "GET",
+        "path": "/me/profile",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Your profile"
+      },
+      {
+        "method": "PATCH",
+        "path": "/me/profile",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Update your contact details and emergency contacts"
+      },
+      {
+        "method": "GET",
+        "path": "/me/punch-corrections",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Your punch correction requests"
+      },
+      {
+        "method": "POST",
+        "path": "/me/punch-corrections",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Ask your manager to fix a missed or wrong punch"
+      },
+      {
+        "method": "POST",
+        "path": "/me/punch-corrections/{id}:cancel",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Cancel a pending correction request"
+      },
+      {
+        "method": "GET",
+        "path": "/me/punches",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Your punches (from/to are RFC 3339 times)"
+      },
+      {
+        "method": "GET",
+        "path": "/me/shift-swaps",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Swap requests you made or were offered"
+      },
+      {
+        "method": "POST",
+        "path": "/me/shift-swaps",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Offer one of your shifts to a co-worker"
+      },
+      {
+        "method": "GET",
+        "path": "/me/shifts",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Your published shifts (from/to are RFC 3339 times)"
+      },
+      {
+        "method": "POST",
+        "path": "/me/shifts/{id}:claim",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Pick up an open shift at your location"
+      },
+      {
+        "method": "GET",
+        "path": "/me/time-off/balances",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Your time-off balances"
+      },
+      {
+        "method": "GET",
+        "path": "/me/time-off/requests",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Your time-off requests"
+      },
+      {
+        "method": "POST",
+        "path": "/me/time-off/requests",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Request time off"
+      },
+      {
+        "method": "POST",
+        "path": "/me/time-off/requests/{id}:cancel",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Cancel one of your time-off requests"
+      },
+      {
+        "method": "GET",
+        "path": "/me/timesheets",
+        "integration": null,
+        "people": "self",
+        "feature": "employee_area",
+        "description": "Your timesheets"
+      }
+    ]
+  },
+  {
+    "title": "Webhooks",
+    "slug": "webhooks",
+    "intro": "Webhook endpoints and their delivery log. People only. An integration's endpoint comes from its manifest; standalone endpoints are added here. See [Webhooks](webhooks.md).",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/webhook-endpoints",
+        "integration": null,
+        "people": "`webhooks.manage` (Everyone)",
+        "feature": null,
+        "description": "List endpoints; `integrationId` (or `none` for standalone) and `status` filter"
+      },
+      {
+        "method": "POST",
+        "path": "/webhook-endpoints",
+        "integration": null,
+        "people": "`webhooks.manage` (Everyone)",
+        "feature": null,
+        "description": "Add a standalone endpoint; returns its signing secret once"
+      },
+      {
+        "method": "GET",
+        "path": "/webhook-endpoints/{id}",
+        "integration": null,
+        "people": "`webhooks.manage` (Everyone)",
+        "feature": null,
+        "description": "Get an endpoint"
+      },
+      {
+        "method": "PATCH",
+        "path": "/webhook-endpoints/{id}",
+        "integration": null,
+        "people": "`webhooks.manage` (Everyone)",
+        "feature": null,
+        "description": "Change its URL, events or description, or disable and re-enable it"
+      },
+      {
+        "method": "DELETE",
+        "path": "/webhook-endpoints/{id}",
+        "integration": null,
+        "people": "`webhooks.manage` (Everyone)",
+        "feature": null,
+        "description": "Delete a standalone endpoint and its delivery log"
+      },
+      {
+        "method": "POST",
+        "path": "/webhook-endpoints/{id}:rotate-secret",
+        "integration": null,
+        "people": "`webhooks.manage` (Everyone)",
+        "feature": null,
+        "description": "New signing secret, returned once"
+      },
+      {
+        "method": "POST",
+        "path": "/webhook-endpoints/{id}:ping",
+        "integration": null,
+        "people": "`webhooks.manage` (Everyone)",
+        "feature": null,
+        "description": "Send a `webhook.ping` test event"
+      },
+      {
+        "method": "POST",
+        "path": "/webhook-endpoints/{id}:retry-failed",
+        "integration": null,
+        "people": "`webhooks.manage` (Everyone)",
+        "feature": null,
+        "description": "Queue every failed delivery again"
+      },
+      {
+        "method": "GET",
+        "path": "/webhook-endpoints/{id}/deliveries",
+        "integration": null,
+        "people": "`webhooks.manage` (Everyone)",
+        "feature": null,
+        "description": "Its deliveries; `status`, `eventType` and `from` filter"
+      },
+      {
+        "method": "GET",
+        "path": "/webhook-deliveries/{id}",
+        "integration": null,
+        "people": "`webhooks.manage` (Everyone)",
+        "feature": null,
+        "description": "A delivery with the event body exactly as sent"
+      },
+      {
+        "method": "POST",
+        "path": "/webhook-deliveries/{id}:retry",
+        "integration": null,
+        "people": "`webhooks.manage` (Everyone)",
+        "feature": null,
+        "description": "Send a delivery again"
+      }
+    ]
+  }
+]

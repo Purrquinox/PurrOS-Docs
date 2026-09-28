@@ -1,0 +1,13 @@
+---
+title: "Users & Roles"
+description: "Inviting and managing accounts, custom roles, and company sign-in settings."
+icon: Users
+---
+
+Managing accounts and roles needs `users.manage` or `roles.manage` with reach **Everyone**, and works only for people (sessions and personal keys). Integration keys can read roles and users (see [Organization](/docs/api/reference/organization)) but never change them, so an integration can't escalate access.
+
+You can only create, edit or assign a role if you hold every permission in it with an equal or wider reach. See [Users, roles & permissions](/docs/platform/administration/users-and-roles).
+
+All paths are relative to `/api/v1`. **Key** is the scope an integration key needs, **People** the [permission](/docs/platform/administration/permissions-reference) a signed-in person or personal key needs, and **Feature** the [feature switch](/docs/platform/administration/feature-switches) the endpoint belongs to. See [how to read this reference](/docs/api/reference#who-can-call-what).
+
+<Endpoints section="users-and-roles" />

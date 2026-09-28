@@ -1,0 +1,76 @@
+---
+title: Authentication & scopes
+description: The three ways to call the API, how people's permissions and reach are checked, and every integration scope.
+icon: KeyRound
+---
+
+## Authentication
+
+There are three ways to call the API:
+
+| Caller | How | Access |
+|---|---|---|
+| **Integration key** | `Authorization: Bearer pk_live_…` from registering an [integration](/docs/integrations) | The **scopes** in its manifest, company-wide |
+| **Personal key** | `Authorization: Bearer pk_live_…` created at `POST /auth/api-keys` by a user whose role has `api_keys.personal` | That user's own role permissions and reach, never more |
+| **Session** | The `purros_session` cookie set by `POST /auth/sign-in` (the web app) | The signed-in person's role permissions and reach |
+
+```http
+GET /api/v1/employees HTTP/1.1
+Host: erp.example.com
+Authorization: Bearer pk_live_3c9f…
+```
+
+Keys are shown once, can have an expiry, and can be revoked. Use `GET /api/v1/me` to check what a key is, or `GET /api/v1/auth/session` to see a person's role, permissions and assignments.
+
+<Callout type="warn" title="Keep keys secret">
+  Only a hash of each key is stored, so a lost key can't be shown again: revoke it and create a new one. Put keys in environment variables, never in code. See [API keys](/docs/platform/administration/authentication#api-keys).
+</Callout>
+
+### People: permissions and reach
+
+Requests from people (sessions and personal keys) are checked against their role instead of scopes. The [endpoint reference](/docs/api/reference) lists the permission each endpoint needs. When the role holds the permission with a [reach](/docs/platform/administration/users-and-roles#reach) narrower than **Everyone** (own team, assigned locations or assigned departments):
+
+- list endpoints must be narrowed with `locationId` or `employeeId` inside that reach
+- single records, and actions on them, are checked against the record's location or employee
+- anything else returns `403 out_of_reach`
+
+Data feeds (batch ingestion, tenders, settlements, sensor readings…) are for integration keys only. Sessions also:
+
+- must send state-changing requests from the PurrOS origin (the `Origin` header is checked), which protects against cross-site request forgery
+- may need a second step (`POST /auth/sign-in/mfa`) before anything else works; see [Authentication](/docs/platform/administration/authentication)
+
+## Scopes
+
+Integration keys are limited to the scopes they declared:
+
+| Scope | Covers |
+|---|---|
+| `organization:read` | Org units, locations, departments, roles, users (read-only) |
+| `organization:write` | Create, update and archive org units, locations and departments |
+| `attachments:read`, `attachments:write` | Upload, download and delete files ([Attachments](/docs/api/attachments)) |
+| `people:read`, `people:write` | Employees, documents, skills, onboarding |
+| `payroll:read`, `payroll:write` | Pay rates, pay period exports, payslips |
+| `time:read`, `time:write` | Punches, timesheets, time off |
+| `scheduling:read`, `scheduling:write` | Demand drivers, forecasts, schedules, shifts, availability |
+| `cash:read`, `cash:write` | Tenders, settlements, bank transactions, counts, deposits |
+| `inventory:read`, `inventory:write` | Items, stock, movements, counts, waste, transfers, usage recipes |
+| `purchasing:read`, `purchasing:write` | Suppliers, catalogs, suggested orders, purchase orders, receipts, supplier invoices |
+| `sales:read`, `sales:write` | Sales transactions and summaries, customers, sales orders, invoices |
+| `operations:read`, `operations:write` | Forms, submissions, corrective actions, audits, sensor readings |
+| `equipment:read`, `equipment:write` | Assets, meter readings, work orders |
+| `communication:read`, `communication:write` | Announcements, calendar events, recognitions |
+| `reports:read`, `reports:write` | Reports, KPIs, recommendations. `write` is for pushing custom display metrics. |
+| `people:sensitive` | Sensitive employee fields (national ID, bank details). Needs Owner approval at registration. |
+| `notifications:deliver` | Receive `notification.requested` events to deliver SMS or chat messages |
+
+Sensitive employee fields are never returned to integration keys without the `people:sensitive` scope.
+
+Scopes also decide which [webhook events](/docs/api/webhooks#subscribing) an integration may subscribe to. Managing integrations and webhook endpoints (`/integrations`, `/webhook-endpoints`) is for people only (`integrations.manage`, `webhooks.manage`); an integration uses `/integrations/self` instead.
+
+<Callout type="idea" title="Ask for the minimum">
+  Declare only the scopes your integration needs. A scope of a switched-off feature can't be requested, and existing keys lose it while the feature is off.
+</Callout>
+
+## Related endpoints
+
+<Endpoints section="authentication" />

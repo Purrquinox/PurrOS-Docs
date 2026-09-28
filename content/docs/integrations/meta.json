@@ -1,0 +1,7 @@
+{
+  "title": "Integrations",
+  "description": "Connect POS, stores, HR, payroll and more",
+  "icon": "Plug",
+  "root": true,
+  "pages": ["index", "building-an-integration", "recipes"]
+}

@@ -1,0 +1,47 @@
+---
+title: PurrOS documentation
+description: PurrOS is an open-source, self-hosted operations platform (ERP) for businesses with 20–500 people. Every feature is optional, and other systems connect through a REST API.
+icon: House
+---
+
+PurrOS covers people, scheduling, time, cash, inventory, ordering, sales, checklists, equipment, communication and reporting across one location or many.
+
+<Callout title="Early development" type="warn">
+PurrOS has no tagged release yet. The **API server and `purros` CLI work today** and cover every feature area; the **web app is not built yet**. Throughout these docs, anything marked <Planned /> isn't built, screens ("**Settings → …**") arrive with the web app, and each feature guide starts with what works today and ends with the endpoints you can use now. See the [roadmap](https://github.com/selectdev/PurrOS/blob/main/PRODUCT.md#9-roadmap).
+</Callout>
+
+## Start here
+
+| I want to… | Read |
+|---|---|
+| Install PurrOS on my own server | [Installation](/docs/platform/getting-started/installation) |
+| Set up email (SMTP) and file storage (S3) | [Email & file storage](/docs/platform/getting-started/email-and-storage) |
+| Look up an environment variable, or the config and state directories | [Configuration](/docs/platform/getting-started/configuration) |
+| Set up my company after installing | [First-run setup](/docs/platform/getting-started/first-run-setup) |
+| Understand the words PurrOS uses | [Key concepts](/docs/platform/getting-started/concepts) |
+| Learn how a feature works day to day | [ERP guides](/docs/guides) |
+| Connect my POS, online store or timeclock | [Integrations](/docs/integrations) |
+| Use the API | [API overview](/docs/api) |
+
+## Sections
+
+<Cards>
+  <Card title="Platform" href="/docs/platform">
+    Install, configure and operate PurrOS: getting started, administration, backups, monitoring, security and the CLI.
+  </Card>
+  <Card title="ERP guides" href="/docs/guides">
+    How each feature works, for HR, managers, payroll, finance, inventory staff and every employee.
+  </Card>
+  <Card title="API" href="/docs/api">
+    Authentication, conventions, data ingestion, webhooks, attachments, and a searchable reference of every endpoint.
+  </Card>
+  <Card title="Integrations" href="/docs/integrations">
+    Connect POS systems, online stores, timeclocks, HR, payroll and accounting through the API.
+  </Card>
+</Cards>
+
+## Project documents
+
+- [PRODUCT.md](https://github.com/selectdev/PurrOS/blob/main/PRODUCT.md): vision, users, scope, non-goals, roadmap
+- [DESIGN.md](https://github.com/selectdev/PurrOS/blob/main/DESIGN.md): architecture, data model, API design, UI system
+- [Development guide](/docs/platform/contributing): local setup, repository layout, adding a feature module, testing

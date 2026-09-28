@@ -1,0 +1,13 @@
+---
+title: "Authentication"
+description: "Sign-in, sessions, two-factor authentication, password resets and personal API keys."
+icon: LogIn
+---
+
+These endpoints are used by the web app and by people, never by integration keys. Most need a browser **session**; the sign-in, magic-link, invitation and password-reset endpoints are public.
+
+See [Authentication](/docs/platform/administration/authentication) for how sign-in, 2FA, sessions and lockouts work, and [Authentication & scopes](/docs/api/authentication) for calling the API.
+
+All paths are relative to `/api/v1`. **Key** is the scope an integration key needs, **People** the [permission](/docs/platform/administration/permissions-reference) a signed-in person or personal key needs, and **Feature** the [feature switch](/docs/platform/administration/feature-switches) the endpoint belongs to. See [how to read this reference](/docs/api/reference#who-can-call-what).
+
+<Endpoints section="authentication" />

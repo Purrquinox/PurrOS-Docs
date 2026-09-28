@@ -1,0 +1,86 @@
+@import "tailwindcss";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+
+/* PurrOS tokens (see DESIGN.md → UI system → Tokens). */
+@theme {
+  --color-fd-background: #ffffff;
+  --color-fd-foreground: #11141a;
+  --color-fd-muted: #f2f4f7;
+  --color-fd-muted-foreground: #5b6472;
+  --color-fd-popover: #ffffff;
+  --color-fd-popover-foreground: #11141a;
+  --color-fd-card: #f7f8fa;
+  --color-fd-card-foreground: #11141a;
+  --color-fd-border: #e3e6eb;
+  --color-fd-primary: #1f4fd1;
+  --color-fd-primary-foreground: #ffffff;
+  --color-fd-secondary: #f2f4f7;
+  --color-fd-secondary-foreground: #11141a;
+  --color-fd-accent: #e9eefb;
+  --color-fd-accent-foreground: #11141a;
+  --color-fd-ring: #1f4fd1;
+
+  --color-purr-success: #1b7f4b;
+  --color-purr-warning: #a15c00;
+  --color-purr-danger: #b42318;
+  --color-purr-violet: #6e3fd1;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
+}
+
+.dark {
+  --color-fd-background: #0b0d12;
+  --color-fd-foreground: #e8eaee;
+  --color-fd-muted: #161a22;
+  --color-fd-muted-foreground: #98a1b0;
+  --color-fd-popover: #12151c;
+  --color-fd-popover-foreground: #e8eaee;
+  --color-fd-card: #12151c;
+  --color-fd-card-foreground: #e8eaee;
+  --color-fd-border: #232833;
+  --color-fd-primary: #5b82f0;
+  --color-fd-primary-foreground: #0b0d12;
+  --color-fd-secondary: #161a22;
+  --color-fd-secondary-foreground: #e8eaee;
+  --color-fd-accent: #1a2233;
+  --color-fd-accent-foreground: #e8eaee;
+  --color-fd-ring: #5b82f0;
+
+  --color-purr-success: #3bb27a;
+  --color-purr-warning: #e0a23a;
+  --color-purr-danger: #f0685e;
+  --color-purr-violet: #a78bfa;
+}
+
+.dark #nd-sidebar {
+  --color-fd-muted: #161a22;
+  --color-fd-secondary: #1a1f29;
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+html > body[data-scroll-locked] {
+  margin-right: 0px !important;
+  --removed-body-scroll-bar-size: 0px !important;
+}
+
+/* Tabular numerals in tables, as in the product. */
+.prose table td {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Wide reference tables scroll inside their container, never the page. */
+.prose table {
+  display: block;
+  overflow-x: auto;
+}
+
+.mermaid-diagram svg {
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}

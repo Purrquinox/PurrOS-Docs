@@ -1,0 +1,13 @@
+{
+  "title": "Getting started",
+  "icon": "Rocket",
+  "defaultOpen": true,
+  "pages": [
+    "installation",
+    "dokploy",
+    "configuration",
+    "email-and-storage",
+    "first-run-setup",
+    "concepts"
+  ]
+}

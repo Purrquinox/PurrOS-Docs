@@ -1,0 +1,18 @@
+---
+title: "Integration self-service"
+description: "What an integration can call about itself: its registration, config, heartbeat and log."
+icon: PlugZap
+---
+
+Only integration keys can call these. A typical integration reads its config at start-up, sends a heartbeat after every sync, and logs notable events:
+
+```json
+POST /api/v1/integrations/self/health
+{ "status": "ok", "message": "Last sync 12:05" }
+```
+
+`status` is `ok`, `warning` or `error`. Log levels are `debug`, `info` (default), `warning` and `error`. See [Build an integration](/docs/integrations/building-an-integration).
+
+All paths are relative to `/api/v1`. **Key** is the scope an integration key needs, **People** the [permission](/docs/platform/administration/permissions-reference) a signed-in person or personal key needs, and **Feature** the [feature switch](/docs/platform/administration/feature-switches) the endpoint belongs to. See [how to read this reference](/docs/api/reference#who-can-call-what).
+
+<Endpoints section="integration-self-service" />

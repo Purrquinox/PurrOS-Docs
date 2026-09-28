@@ -1,0 +1,12 @@
+{
+  "title": "Administration",
+  "icon": "ShieldCheck",
+  "defaultOpen": true,
+  "pages": [
+    "organization-and-locations",
+    "users-and-roles",
+    "permissions-reference",
+    "authentication",
+    "feature-switches"
+  ]
+}

@@ -1,0 +1,13 @@
+---
+title: "Sales"
+description: "Sales feeds and unmapped items, customers, sales orders and invoices."
+icon: Receipt
+---
+
+For how this area works day to day, see the [Sales guide](/docs/guides/sales).
+
+**Webhook events:** `sales.unmapped_item`, `sales_order.created`, `sales_order.shipped`, `sales_order.cancelled`, `invoice.issued`, `invoice.paid`. See [Webhooks](/docs/api/webhooks#event-catalog).
+
+All paths are relative to `/api/v1`. **Key** is the scope an integration key needs, **People** the [permission](/docs/platform/administration/permissions-reference) a signed-in person or personal key needs, and **Feature** the [feature switch](/docs/platform/administration/feature-switches) the endpoint belongs to. See [how to read this reference](/docs/api/reference#who-can-call-what).
+
+<Endpoints section="sales" />

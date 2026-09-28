@@ -1,0 +1,13 @@
+---
+title: "Cash Management"
+description: "Tenders, settlements, bank transactions, drawer counts, deposits and business-day close."
+icon: Banknote
+---
+
+For how this area works day to day, see the [Cash management guide](/docs/guides/cash-management).
+
+**Webhook events:** `cash.count_completed`, `cash.over_short_exceeded`, `cash.deposit_recorded`, `cash.deposit_mismatch`, `cash.settlement_mismatch`, `cash.business_day_closed`. See [Webhooks](/docs/api/webhooks#event-catalog).
+
+All paths are relative to `/api/v1`. **Key** is the scope an integration key needs, **People** the [permission](/docs/platform/administration/permissions-reference) a signed-in person or personal key needs, and **Feature** the [feature switch](/docs/platform/administration/feature-switches) the endpoint belongs to. See [how to read this reference](/docs/api/reference#who-can-call-what).
+
+<Endpoints section="cash" />

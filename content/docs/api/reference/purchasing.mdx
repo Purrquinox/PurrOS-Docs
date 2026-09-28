@@ -1,0 +1,13 @@
+---
+title: "Purchasing & Ordering"
+description: "Suppliers and catalogs, suggested orders, purchase orders, receiving and supplier invoices."
+icon: ShoppingCart
+---
+
+For how this area works day to day, see the [Purchasing & ordering guide](/docs/guides/purchasing-and-ordering).
+
+**Webhook events:** `purchase_order.created`, `purchase_order.approved`, `purchase_order.sent`, `purchase_order.received`, `supplier_invoice.mismatch`. See [Webhooks](/docs/api/webhooks#event-catalog).
+
+All paths are relative to `/api/v1`. **Key** is the scope an integration key needs, **People** the [permission](/docs/platform/administration/permissions-reference) a signed-in person or personal key needs, and **Feature** the [feature switch](/docs/platform/administration/feature-switches) the endpoint belongs to. See [how to read this reference](/docs/api/reference#who-can-call-what).
+
+<Endpoints section="purchasing" />

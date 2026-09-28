@@ -1,0 +1,37 @@
+---
+title: Endpoint reference
+description: Every PurrOS API endpoint, with the scope and permission it needs and the feature it belongs to. Search, filter, or browse by area.
+icon: ListTree
+full: true
+---
+
+All paths are relative to `/api/v1`. This reference follows the API's route table (`api/internal/catalog/routes.go`). The full request and response schemas are in the OpenAPI spec your server serves at `/api/v1/openapi.json`, which lists only enabled features.
+
+Endpoints of switched-off features return `404 feature_disabled`.
+
+## Who can call what
+
+| Label | Meaning |
+|---|---|
+| **Key** | The scope an [integration key](/docs/api/authentication#scopes) needs. `—` means integration keys can't call it. |
+| **People** | The [permission](/docs/platform/administration/permissions-reference) a person needs, through a signed-in session or a personal API key. `self` means any signed-in person, for their own data only; `(session)` means a browser session is required, not a personal key; `anyone` means any signed-in person; `—` means people can't call it (data feeds are for integrations). Owners can call everything open to people. |
+| **Feature** | The [feature switch](/docs/platform/administration/feature-switches) the endpoint belongs to. No feature means it's part of the always-on platform core. |
+
+When a person holds the permission with a reach narrower than **Everyone**, the request must stay inside it: filter lists with `locationId` (or `employeeId`), and records are checked against their location or employee. Anything outside returns `403 out_of_reach`. See [Users, roles & permissions](/docs/platform/administration/users-and-roles#reach).
+
+Conventions used throughout (see [Conventions](/docs/api/conventions)):
+
+- Lists are cursor-paginated (`limit`, `cursor` → `nextCursor`) and most accept `updatedSince`.
+- Resources with an `externalId` can be read and upserted at `…/external/{externalId}`.
+- `DELETE` archives (soft delete); history is kept.
+- `PATCH` is a JSON merge patch and accepts `If-Match` with the record's `version`.
+- Batch endpoints (`202`) are idempotent on `source` + `externalId` and return per-record results. See [Data ingestion](/docs/api/data-ingestion).
+- Actions on a record use a colon: `POST /employees/{id}:terminate`.
+
+## Browse by area
+
+<EndpointSections />
+
+## Search all endpoints
+
+<EndpointExplorer />

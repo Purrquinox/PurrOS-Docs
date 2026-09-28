@@ -1,0 +1,199 @@
+---
+title: "Installation"
+description: "Run PurrOS on your own server with Docker Compose: requirements, configuration, first start, reverse proxy and scaling."
+icon: Download
+---
+
+PurrOS runs as two containers: **api** (the `purros` Go binary, which serves the REST API and runs the background worker) and **PostgreSQL**. Redis is optional, and the Next.js web app will be a third container once it's released. The supported way to run them is Docker Compose.
+
+<Mermaid
+  chart={`flowchart LR
+  users["Browsers, integrations,<br/>POS & timeclocks"] -->|HTTPS| proxy["Reverse proxy<br/>Caddy · nginx · Traefik"]
+  proxy -->|":8080"| api["api<br/>purros serve<br/>REST API + worker"]
+  api --> db[("PostgreSQL 16<br/>data + job queue")]
+  api --> state[("state volume / S3<br/>files + backups")]
+  api -.->|optional| redis[("Redis<br/>shared rate limits")]`}
+/>
+
+## Requirements
+
+| | Minimum | Recommended (up to ~500 employees, several locations) |
+|---|---|---|
+| CPU | 2 vCPU | 4 vCPU |
+| Memory | 4 GB | 8 GB |
+| Disk | 20 GB SSD | 50 GB SSD plus attachment storage |
+| Software | Docker 24+, Docker Compose v2 | Same |
+| Network | A domain name and TLS certificate (a reverse proxy can obtain one automatically) | Same |
+
+Any Linux server or VM works. PurrOS also runs on macOS and Windows with Docker Desktop for evaluation, but that isn't recommended for production.
+
+<Callout type="idea">
+Deploying on **Dokploy**? Follow [Deploying on Dokploy](/docs/platform/getting-started/dokploy) instead: it uses `docker-compose.dokploy.yml` and Dokploy's Environment and Domains tabs.
+</Callout>
+
+## Install
+
+<Steps>
+<Step>
+
+### Get the code
+
+```bash
+git clone https://github.com/selectdev/PurrOS.git
+cd PurrOS
+git checkout <latest release tag>
+cp config/purros.env.example config/purros.env
+cp config/postgres.env.example config/postgres.env
+chmod 600 config/*.env
+```
+
+Always install from a release tag rather than the default branch.
+
+</Step>
+<Step>
+
+### Configure
+
+Configuration lives in the `config/` directory, which is never committed:
+
+<Files>
+  <Folder name="PurrOS" defaultOpen>
+    <Folder name="config" defaultOpen>
+      <File name="purros.env — every PurrOS setting, read by the api container" />
+      <File name="postgres.env — the database user and password, read by the db container" />
+    </Folder>
+    <File name="docker-compose.yml" />
+  </Folder>
+</Files>
+
+If you already have the `purros` binary, `purros init --url https://erp.example.com` writes both files with generated secrets. Otherwise edit the copies. These values are required:
+
+```dotenv
+# config/purros.env
+PURROS_URL=https://erp.example.com
+PURROS_SECRET=            # openssl rand -base64 32, or: purros secret generate
+DATABASE_URL=postgres://purros:CHANGE_ME@db:5432/purros?sslmode=disable
+
+# config/postgres.env
+POSTGRES_PASSWORD=CHANGE_ME   # the same password as in DATABASE_URL
+```
+
+<Callout type="error" title="Keep a copy of PURROS_SECRET somewhere safe">
+`PURROS_SECRET` encrypts stored secrets and signs sessions. If you lose it, encrypted data such as integration secrets and sensitive employee fields cannot be recovered.
+</Callout>
+
+Recommended for production:
+
+```dotenv
+# Email (SMTP)
+SMTP_HOST=smtp.your-provider.example
+SMTP_PORT=587
+SMTP_USER=...
+SMTP_PASSWORD=...
+SMTP_FROM="Acme Operations <ops@acme.example>"
+
+# File storage (S3-compatible)
+STORAGE_DRIVER=s3
+STORAGE_S3_BUCKET=acme-purros-files
+STORAGE_S3_REGION=eu-central-1
+STORAGE_S3_ACCESS_KEY_ID=...
+STORAGE_S3_SECRET_ACCESS_KEY=...
+```
+
+See [Email & file storage](/docs/platform/getting-started/email-and-storage) for setup and testing, and [Configuration](/docs/platform/getting-started/configuration) for every option.
+
+</Step>
+<Step>
+
+### Start the services
+
+```bash
+docker compose up -d                  # builds the API image; migrations run automatically on start
+docker compose exec api purros setup  # guided: company, first Owner and first location
+docker compose exec api purros doctor
+```
+
+`setup` asks for the company, the first **Owner** and, optionally, the first location. It then prints a one-time link for the Owner to set a password. For scripted installs, pass the values as flags (see the [CLI reference](/docs/platform/operations/cli#setup)). Until the web app ships, locations and integrations are managed with the [CLI](/docs/platform/operations/cli).
+
+Everything PurrOS writes (uploaded files and nightly backups) lives in `/var/lib/purros` inside the container, on the `state` volume. Backups go to `/var/lib/purros/backups` every night. See [Backups & upgrades](/docs/platform/operations/backups-and-upgrades) to copy backups off the server, encrypt them and restore them.
+
+</Step>
+<Step>
+
+### Put a reverse proxy in front
+
+The `api` container listens on port `8080` over plain HTTP (bound to `127.0.0.1` in the Compose file). Put a reverse proxy in front of it to handle TLS:
+
+<Tabs items={['Caddy', 'nginx']}>
+<Tab value="Caddy">
+
+```text title="Caddyfile"
+erp.example.com {
+    reverse_proxy 127.0.0.1:8080
+}
+```
+
+Caddy obtains and renews the TLS certificate automatically.
+
+</Tab>
+<Tab value="nginx">
+
+```nginx title="/etc/nginx/sites-available/purros"
+server {
+    listen 443 ssl http2;
+    server_name erp.example.com;
+    # ssl_certificate / ssl_certificate_key ...
+
+    client_max_body_size 50m;          # attachments and imports
+
+    location / {
+        proxy_pass http://127.0.0.1:8080;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+}
+```
+
+</Tab>
+</Tabs>
+
+<Callout type="warn">
+`PURROS_URL` must match the public address exactly (scheme and host), or sign-in links, passkeys and SSO callbacks will fail.
+</Callout>
+
+</Step>
+<Step>
+
+### Connect your systems
+
+Register an integration for your POS, online store or timeclock with `purros integrations register` (see [Integrations](/docs/integrations)), and browse the API at `PURROS_URL/api/v1/openapi.json`. When the web app is released, the Owner will sign in and continue with the [first-run setup](/docs/platform/getting-started/first-run-setup) wizard.
+
+</Step>
+</Steps>
+
+## Services
+
+| Service | Purpose | Persistent data |
+|---|---|---|
+| `api` | The `purros` binary: `/api/v1`, health checks, and the background worker (webhooks, email, KPI alerts, nightly backups) | **Yes**: the `state` volume (`/var/lib/purros`) holds uploaded files and backups |
+| `db` | PostgreSQL 16: all data and the job queue | **Yes: back this up** |
+| `redis` | Optional (`docker compose --profile redis up -d`): shared rate limits across several `api` containers | No |
+| `web` | Next.js web UI, Employee Area, kiosk timeclock, team displays <Planned /> | None |
+
+Uploaded files are stored in the `state` volume by default, or in S3-compatible storage, which is recommended for production and required when running more than one `api` container. See [Email & file storage](/docs/platform/getting-started/email-and-storage#file-storage-s3).
+
+## Scaling
+
+- **More traffic:** run several `api` containers behind the proxy. They are stateless; set `REDIS_URL` so they share rate limits.
+- **Heavy data feeds** (many POS terminals or online orders): set `PURROS_RUN_WORKER=false` on the `api` containers and run one or more dedicated `purros worker` containers. Workers share the PostgreSQL job queue safely.
+- **Managed services:** point `DATABASE_URL` (and optionally `REDIS_URL`) at a managed PostgreSQL 16+ and remove `db` from the Compose file.
+
+## Next steps
+
+<Cards>
+  <Card title="Configuration" href="/docs/platform/getting-started/configuration">Every environment variable, and the config and state directories.</Card>
+  <Card title="Email & file storage" href="/docs/platform/getting-started/email-and-storage">SMTP, S3-compatible storage and off-site backups.</Card>
+  <Card title="First-run setup" href="/docs/platform/getting-started/first-run-setup">Company, locations, features, roles and people.</Card>
+  <Card title="Backups & upgrades" href="/docs/platform/operations/backups-and-upgrades">Set up backups before going live.</Card>
+</Cards>

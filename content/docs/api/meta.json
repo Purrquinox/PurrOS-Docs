@@ -1,0 +1,19 @@
+{
+  "title": "API",
+  "description": "REST API, ingestion and webhooks",
+  "icon": "Braces",
+  "root": true,
+  "pages": [
+    "index",
+    "---Fundamentals---",
+    "authentication",
+    "conventions",
+    "errors",
+    "---Guides---",
+    "data-ingestion",
+    "webhooks",
+    "attachments",
+    "---Reference---",
+    "reference"
+  ]
+}

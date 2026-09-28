@@ -1,0 +1,11 @@
+---
+title: "Platform"
+description: "Discovery endpoints: enabled features, the calling key, the permission catalog and the OpenAPI document."
+icon: Cpu
+---
+
+Call these first when an integration starts: `GET /features` tells it which features are switched on, so it can adapt, and `GET /me` confirms which key it is using.
+
+All paths are relative to `/api/v1`. **Key** is the scope an integration key needs, **People** the [permission](/docs/platform/administration/permissions-reference) a signed-in person or personal key needs, and **Feature** the [feature switch](/docs/platform/administration/feature-switches) the endpoint belongs to. See [how to read this reference](/docs/api/reference#who-can-call-what).
+
+<Endpoints section="platform" />

@@ -1,0 +1,13 @@
+---
+title: "Employee Area"
+description: "Everything under /me: an employee's own profile, time, shifts, time off, pay, documents and data export."
+icon: UserRound
+---
+
+Served for sessions and personal keys of accounts linked to an employee record. Every endpoint only ever touches the caller's own data, and needs no role permission.
+
+For how this area works day to day, see the [Employee Area guide](/docs/guides/employee-area).
+
+All paths are relative to `/api/v1`. **Key** is the scope an integration key needs, **People** the [permission](/docs/platform/administration/permissions-reference) a signed-in person or personal key needs, and **Feature** the [feature switch](/docs/platform/administration/feature-switches) the endpoint belongs to. See [how to read this reference](/docs/api/reference#who-can-call-what).
+
+<Endpoints section="employee-area" />

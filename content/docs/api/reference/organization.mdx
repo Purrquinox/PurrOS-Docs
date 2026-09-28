@@ -1,0 +1,15 @@
+---
+title: "Organization"
+description: "Org units, locations and departments, plus read-only roles and users for integrations."
+icon: Network
+---
+
+The organization structure is part of the always-on platform core. Everything supports `externalId`, so an HR system or POS integration can sync its store, region and department IDs with `PUT …/external/{externalId}`.
+
+With a reach narrower than Everyone, `organization.manage` only lets someone edit and archive their own locations' profiles. See [Organization & locations](/docs/platform/administration/organization-and-locations).
+
+**Webhook events:** `org_unit.created`, `org_unit.updated`, `org_unit.archived`, `location.created`, `location.updated`, `location.archived`, `department.created`, `department.updated`, `department.archived`.
+
+All paths are relative to `/api/v1`. **Key** is the scope an integration key needs, **People** the [permission](/docs/platform/administration/permissions-reference) a signed-in person or personal key needs, and **Feature** the [feature switch](/docs/platform/administration/feature-switches) the endpoint belongs to. See [how to read this reference](/docs/api/reference#who-can-call-what).
+
+<Endpoints section="organization" />

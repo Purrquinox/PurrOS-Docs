@@ -1,0 +1,242 @@
+---
+title: "Email (SMTP) & file storage (S3)"
+description: "Send email through any SMTP server, and store files on local disk or in any S3-compatible object storage."
+icon: Mail
+---
+
+PurrOS sends email through any **SMTP** server, and stores files either on local disk or in any **S3-compatible** object storage. Both are set with environment variables (see [Configuration](/docs/platform/getting-started/configuration)) and can be tested with the [CLI](/docs/platform/operations/cli).
+
+---
+
+## Email (SMTP)
+
+### What PurrOS sends by email
+
+| Email | Sent to | Status |
+|---|---|---|
+| Invitations, magic sign-in links, password resets | The person signing in | Sent today |
+| Security notices (new device, 2FA changed, account locked) | The account owner | Planned |
+| Schedule published or changed, shift reminders | Employees (if they chose email) | Planned |
+| Approval requests and decisions (timesheets, time off, swaps, purchase orders) | Managers and employees | Planned |
+| Alerts (overdue checklists, cash over/short, low stock, failed integrations) | Chosen roles | Planned (alerts are webhooks today) |
+| Scheduled reports (PDF, CSV or Excel attached) | Report recipients | Planned |
+| Purchase orders (PDF + CSV) | Suppliers, when sending orders by email | Planned |
+| Customer invoices (PDF) | Customers | Planned (the PDF is available at `GET /invoices/{id}/pdf`) |
+| Announcements | Employees who chose email | Planned |
+
+Once notifications ship, everyone will choose which ones they get by email. Security emails and sign-in links will always be sent.
+
+### Settings
+
+| Variable | Required | Default | Description |
+|---|---|---|---|
+| `SMTP_HOST` | Yes | | SMTP server hostname |
+| `SMTP_PORT` | No | `587` | `587` (STARTTLS), `465` (implicit TLS) or `25` |
+| `SMTP_SECURE` | No | `false` | `true` for implicit TLS (port 465). On 587, STARTTLS is used automatically. |
+| `SMTP_USER`, `SMTP_PASSWORD` | Usually | | Credentials. Many providers use an API key as the password. |
+| `SMTP_FROM` | Yes | | Sender, e.g. `Acme Operations <ops@acme.example>` |
+| `SMTP_REPLY_TO` | No | | Where replies go, e.g. an HR or support mailbox |
+| `SMTP_REQUIRE_TLS` | No | `true` | Refuse to send if the server doesn't support TLS |
+| `SMTP_TLS_REJECT_UNAUTHORIZED` | No | `true` | Set `false` only for internal servers with self-signed certificates |
+| `SMTP_RATE_PER_SECOND` | No | `10` | Stay under your provider's sending limit |
+
+Emails are sent by the worker from a queue, so a slow or unavailable SMTP server never slows the app down. Failed sends are retried with growing delays for up to 24 hours. Once sent, the email body is deleted; only the recipient, subject, kind and status are kept.
+
+### Example `config/purros.env`
+
+```dotenv
+SMTP_HOST=smtp.your-provider.example
+SMTP_PORT=587
+SMTP_USER=apikey
+SMTP_PASSWORD=your-smtp-password-or-api-key
+SMTP_FROM="Acme Operations <ops@acme.example>"
+SMTP_REPLY_TO=hr@acme.example
+```
+
+Any SMTP service works: a transactional email provider, Microsoft 365 or Google Workspace SMTP relay, Amazon SES, or your own mail server.
+
+### Make sure email gets delivered
+
+To keep PurrOS email out of spam folders, set these DNS records for the domain in `SMTP_FROM`, following your email provider's instructions:
+
+- **SPF**: authorizes your provider to send for your domain.
+- **DKIM**: signs messages so receivers can verify them.
+- **DMARC**: tells receivers what to do with unauthenticated mail.
+
+### Test it
+
+```bash
+docker compose exec api purros email test --to you@example.com
+```
+
+It shows the exact SMTP error if sending fails.
+
+### Delivery log
+
+`purros email log [--limit 30]` lists recent emails with their status (queued, sent, failed) and the reason for failures. Email content is not kept once sent, only the recipient, subject and type.
+
+### Branding and language
+
+Emails use the company name. *(Planned: the company logo, each recipient's language, and editable templates.)*
+
+### Without SMTP
+
+PurrOS works without email, but:
+
+- invitation and sign-in links are printed instead (`purros users invite`, `purros users sign-in-link`) and have to be shared by hand
+- magic-link sign-in and password reset by email are unavailable
+
+---
+
+## File storage (S3)
+
+### What PurrOS stores as files
+
+Anything uploaded through [attachments](/docs/api/attachments): employee documents (contracts, IDs, certificates), photos (checklist, audit, repair ticket and waste photos), receipts and supplier invoices, and payslip PDFs. *(Planned: kiosk photos, the shared files library, imports and full company exports, and branding images. "Export my data" ZIPs and invoice PDFs are generated on request and not stored.)*
+
+The database only keeps each file's metadata (name, type, size, checksum, owner, who can see it). The file itself lives in storage.
+
+### Drivers
+
+| `STORAGE_DRIVER` | Where files go | Good for |
+|---|---|---|
+| `local` (default) | `$PURROS_STATE_DIR/files` (the `state` volume in Docker) | Single-server installs, evaluation |
+| `s3` | Any S3-compatible object storage | Production, multiple app servers, large volumes, easier backups |
+
+S3-compatible services include AWS S3, Cloudflare R2, Backblaze B2, Wasabi, DigitalOcean Spaces, Google Cloud Storage (interoperability mode), and self-hosted MinIO, Garage or Ceph.
+
+### S3 settings
+
+| Variable | Required | Default | Description |
+|---|---|---|---|
+| `STORAGE_DRIVER` | | `local` | Set to `s3` |
+| `STORAGE_S3_BUCKET` | Yes | | Bucket name |
+| `STORAGE_S3_REGION` | Yes | | Region, e.g. `eu-central-1` (`auto` for some providers) |
+| `STORAGE_S3_ENDPOINT` | Non-AWS | | e.g. `https://s3.eu-central-003.backblazeb2.com` or `http://minio:9000` |
+| `STORAGE_S3_ACCESS_KEY_ID`, `STORAGE_S3_SECRET_ACCESS_KEY` | Usually | | Credentials. Leave empty on AWS to use an instance or task IAM role. |
+| `STORAGE_S3_FORCE_PATH_STYLE` | No | `false` | `true` for MinIO and some other self-hosted services |
+| `STORAGE_S3_PREFIX` | No | | Folder prefix inside the bucket, e.g. `purros/`, to share a bucket |
+| `STORAGE_S3_SSE` | No | | Server-side encryption: `AES256` or `aws:kms` |
+| `STORAGE_S3_KMS_KEY_ID` | No | | KMS key when using `aws:kms` |
+| `STORAGE_SIGNED_URL_TTL` | No | `300` | Seconds a download link stays valid |
+| `STORAGE_MAX_UPLOAD_MB` | No | `25` | Largest single upload |
+
+### Example: AWS S3
+
+```dotenv
+STORAGE_DRIVER=s3
+STORAGE_S3_BUCKET=acme-purros-files
+STORAGE_S3_REGION=eu-central-1
+STORAGE_S3_ACCESS_KEY_ID=AKIA...
+STORAGE_S3_SECRET_ACCESS_KEY=...
+STORAGE_S3_SSE=AES256
+```
+
+### Example: self-hosted MinIO next to PurrOS
+
+Add to `docker-compose.yml`:
+
+```yaml
+  minio:
+    image: minio/minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: purros
+      MINIO_ROOT_PASSWORD: change-me-long-password
+    volumes:
+      - minio-data:/data
+    restart: unless-stopped
+
+volumes:
+  minio-data:
+```
+
+```dotenv
+STORAGE_DRIVER=s3
+STORAGE_S3_ENDPOINT=http://minio:9000
+STORAGE_S3_REGION=us-east-1
+STORAGE_S3_BUCKET=purros
+STORAGE_S3_FORCE_PATH_STYLE=true
+STORAGE_S3_ACCESS_KEY_ID=purros
+STORAGE_S3_SECRET_ACCESS_KEY=change-me-long-password
+```
+
+Create the bucket once in the MinIO console (port 9001) or with `purros storage init`.
+
+### Bucket setup
+
+- **Keep the bucket private.** PurrOS never makes files public. Downloads use short-lived **signed URLs** created only after checking that the person may see the file.
+- **Turn on versioning**, so deleted or overwritten files can be recovered.
+- **Encryption at rest:** use `STORAGE_S3_SSE`, or the provider's default bucket encryption.
+- **Lifecycle rules** are optional. Don't set rules that delete files PurrOS still references. *(Retention settings that let PurrOS delete old files itself, e.g. kiosk photos after 90 days, are planned.)*
+- **Minimum permissions** for the access key, on the bucket and prefix only: `s3:GetObject`, `s3:PutObject`, `s3:DeleteObject`, `s3:ListBucket`, `s3:AbortMultipartUpload`.
+
+Example IAM policy for AWS:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    { "Effect": "Allow", "Action": ["s3:ListBucket"], "Resource": "arn:aws:s3:::acme-purros-files" },
+    { "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:PutObject", "s3:DeleteObject", "s3:AbortMultipartUpload"],
+      "Resource": "arn:aws:s3:::acme-purros-files/*" }
+  ]
+}
+```
+
+### How uploads and downloads work
+
+- **Uploads** go through the API (`POST /api/v1/attachments`). They are streamed straight to storage without being held in memory. PurrOS checks the file type from its content, enforces `STORAGE_MAX_UPLOAD_MB`, and records the SHA-256 checksum. See [Attachments](/docs/api/attachments).
+- **Downloads** go through a permission check. With S3, the response is a redirect to a signed URL that expires after `STORAGE_SIGNED_URL_TTL` seconds, so the file comes straight from the bucket. With local storage, PurrOS streams the file itself.
+- Direct browser-to-bucket uploads (signed upload URLs) are planned. Until then, the bucket needs no CORS settings.
+
+### Test it
+
+- `purros storage test` writes, reads and deletes a test file (`--backups` tests the backup bucket)
+- `purros storage verify [--checksums]` checks that every attachment's file is in storage
+- `purros doctor` includes the same write/read test
+
+### Moving from local disk to S3
+
+```bash
+# 1. Add the S3 settings to config/purros.env, but keep STORAGE_DRIVER=local for now
+docker compose exec api purros storage migrate --to s3
+# 2. When it reports "0 remaining", switch the driver
+#    STORAGE_DRIVER=s3
+docker compose up -d
+docker compose exec api purros storage verify
+```
+
+`storage migrate` copies every file and checks its checksum. It can be stopped and run again: files already copied are skipped. Run it once more right before switching `STORAGE_DRIVER` to catch files uploaded in the meantime. The local volume isn't deleted, so remove it yourself once you've confirmed everything works.
+
+---
+
+## Database backups to S3 (optional)
+
+PurrOS can upload every backup (scheduled and manual) to an S3-compatible bucket, and keeps a set number there. Use a **different bucket** from file storage, ideally with another provider or in another region.
+
+| Variable | Default | Description |
+|---|---|---|
+| `PURROS_BACKUP_S3_ENABLED` | `false` | Upload backups to the bucket below |
+| `PURROS_BACKUP_S3_BUCKET`, `PURROS_BACKUP_S3_REGION`, `PURROS_BACKUP_S3_ENDPOINT`, `PURROS_BACKUP_S3_ACCESS_KEY_ID`, `PURROS_BACKUP_S3_SECRET_ACCESS_KEY`, `PURROS_BACKUP_S3_FORCE_PATH_STYLE`, `PURROS_BACKUP_S3_SSE`, `PURROS_BACKUP_S3_KMS_KEY_ID` | | Same meaning as the `STORAGE_S3_*` settings |
+| `PURROS_BACKUP_S3_PREFIX` | `purros-backups/` | Folder inside the bucket |
+| `PURROS_BACKUP_S3_KEEP` | `PURROS_BACKUP_KEEP` | How many backups to keep in the bucket |
+
+With S3 enabled, `PURROS_BACKUP_DIR` becomes optional:
+
+- **With a directory**, backups are kept locally *and* uploaded.
+- **Without one**, backups are only uploaded; the local copy is deleted once the upload succeeds.
+
+A failed upload is recorded, shown by `purros backup list` and `purros doctor`, and retried with the next backup.
+
+```bash
+purros backup list --remote                 # backups in the bucket
+purros backup restore s3:<name> --replace   # restore straight from the bucket
+purros backup download <name>               # or download first
+purros storage init --backups               # create the bucket if needed
+```
+
+Encrypt backups before they leave the server with `PURROS_BACKUP_PASSPHRASE`. See [Backups & upgrades](/docs/platform/operations/backups-and-upgrades).
+
+With S3 file storage, the files themselves are backed up through bucket versioning and replication or your own tools, unless you set `PURROS_BACKUP_FILES=true` to include them in backups. With local storage they're included by default.

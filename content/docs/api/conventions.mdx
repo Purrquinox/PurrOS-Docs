@@ -1,0 +1,133 @@
+---
+title: Conventions
+description: Naming, IDs, dates, decimal money, the standard operations, pagination, filtering and the versioning promise.
+icon: Ruler
+---
+
+## Conventions
+
+| Topic | Rule |
+|---|---|
+| Resource names | Plural, kebab-case: `/purchase-orders`, `/sales-summaries` |
+| Field names | camelCase |
+| IDs | Prefixed strings, e.g. `emp_01J8Z…`, `loc_…`, `itm_…`. Treat them as opaque. |
+| Timestamps | ISO 8601 in UTC: `2026-09-27T12:41:07Z` |
+| Business dates | `YYYY-MM-DD` in the location's time zone, e.g. `"businessDate": "2026-09-27"` |
+| Money and quantities | **Decimal strings**: `"12.50"`, `"0.250000"`. Never floats. |
+| Currency | ISO 4217 code alongside amounts, defaulting to the location's currency |
+| External IDs | Any record you sync can carry your system's ID in `externalId` |
+| Unknown fields | New fields may be added at any time, so **ignore fields you don't recognize** |
+
+<Callout type="warn" title="Never use floats for money">
+  Send and parse amounts as strings, and use a decimal type in your code. `"0.1" + "0.2"` must be `"0.3"`.
+</Callout>
+
+## Operations
+
+| Operation | Pattern |
+|---|---|
+| List | `GET /employees?limit=50&cursor=…&filter[status]=active&sort=-updatedAt` |
+| Get | `GET /employees/{id}` or `GET /employees/external/{externalId}` |
+| Create | `POST /employees` |
+| Update | `PATCH /employees/{id}` (partial). Send `If-Match: <version>` to avoid overwriting someone else's change. |
+| Upsert by external ID | `PUT /employees/external/{externalId}` |
+| Archive | `DELETE /employees/{id}` (soft, history kept) |
+| Batch | `POST /time/punches:batch` (up to 1,000 records, result per record) |
+| Actions | `POST /timesheets/{id}:approve`, `POST /purchase-orders/{id}:receive` |
+| Changes since | `GET /employees?updatedSince=2026-09-01T00:00:00Z` |
+
+A few more rules hold everywhere:
+
+- `PATCH` is a JSON merge patch and accepts `If-Match` with the record's `version`; a stale version returns `409 version_mismatch`.
+- `DELETE` archives (soft delete); history is kept.
+- Actions on a record use a colon: `POST /employees/{id}:terminate`.
+- Batch endpoints answer `202` with a result per record. See [Data ingestion](/docs/api/data-ingestion).
+
+## Pagination
+
+Lists use cursors. The default `limit` is 50 and the maximum is 200.
+
+```json
+{
+  "data": [ { "id": "emp_01J8Z…", "firstName": "Dana" } ],
+  "nextCursor": "eyJpZCI6ImVtcF8wMUo4…",
+  "hasMore": true
+}
+```
+
+Pass `cursor=<nextCursor>` to get the next page:
+
+<Tabs items={['TypeScript', 'Python', 'curl']}>
+<Tab value="TypeScript">
+
+```ts
+async function* listAll<T>(path: string) {
+  let cursor: string | undefined;
+  do {
+    const url = new URL(`${process.env.PURROS_URL}/api/v1${path}`);
+    url.searchParams.set('limit', '200');
+    if (cursor) url.searchParams.set('cursor', cursor);
+    const res = await fetch(url, { headers: { Authorization: `Bearer ${process.env.PURROS_KEY}` } });
+    const page = (await res.json()) as { data: T[]; nextCursor: string | null; hasMore: boolean };
+    yield* page.data;
+    cursor = page.hasMore ? (page.nextCursor ?? undefined) : undefined;
+  } while (cursor);
+}
+
+for await (const employee of listAll('/employees?updatedSince=2026-09-01T00:00:00Z')) {
+  console.log(employee);
+}
+```
+
+</Tab>
+<Tab value="Python">
+
+```python
+import os, requests
+
+def list_all(path: str, **params):
+    params = {"limit": 200, **params}
+    while True:
+        res = requests.get(
+            f"{os.environ['PURROS_URL']}/api/v1{path}",
+            params=params,
+            headers={"Authorization": f"Bearer {os.environ['PURROS_KEY']}"},
+        )
+        res.raise_for_status()
+        page = res.json()
+        yield from page["data"]
+        if not page["hasMore"]:
+            break
+        params["cursor"] = page["nextCursor"]
+
+for employee in list_all("/employees", updatedSince="2026-09-01T00:00:00Z"):
+    print(employee["id"])
+```
+
+</Tab>
+<Tab value="curl">
+
+```bash
+curl "https://erp.example.com/api/v1/employees?limit=200" -H "Authorization: Bearer $PURROS_KEY"
+# then, with nextCursor from the response:
+curl "https://erp.example.com/api/v1/employees?limit=200&cursor=eyJpZCI6ImVtcF8wMUo4…" -H "Authorization: Bearer $PURROS_KEY"
+```
+
+</Tab>
+</Tabs>
+
+## Filtering and sorting
+
+`filter[field]=value` (and `filter[field][gte]=…`, `[lte]`, `[in]=a,b`), `sort=field` or `sort=-field`, and `fields=id,firstName` to return fewer fields. Most lists accept `locationId`.
+
+```http
+GET /api/v1/employees?filter[status]=active&filter[startDate][gte]=2026-01-01&sort=-updatedAt&fields=id,firstName,lastName
+```
+
+## Versioning
+
+- `/api/v1` gets **no breaking changes**. New endpoints, fields and event types can be added at any time.
+- A breaking change means a new `/api/v2`, and v1 remains supported for at least 12 months after that.
+- Deprecated endpoints send `Deprecation` and `Sunset` headers and are listed in the changelog.
+
+Integrations depend only on `/api/v1`, so an integration written today keeps working across every PurrOS 1.x release.

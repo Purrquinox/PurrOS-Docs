@@ -1,0 +1,30 @@
+{
+  "title": "Endpoint reference",
+  "icon": "ListTree",
+  "defaultOpen": true,
+  "pages": [
+    "---Platform---",
+    "authentication",
+    "users-and-roles",
+    "platform",
+    "organization",
+    "attachments",
+    "integrations",
+    "integration-self-service",
+    "webhooks",
+    "---Features---",
+    "people",
+    "time",
+    "scheduling",
+    "cash",
+    "inventory",
+    "purchasing",
+    "sales",
+    "operations",
+    "equipment",
+    "communication",
+    "displays",
+    "insights",
+    "employee-area"
+  ]
+}

@@ -1,0 +1,13 @@
+---
+title: "Inventory"
+description: "Items, stock levels and the stock ledger, adjustments, waste, counts, transfers and usage recipes."
+icon: Package
+---
+
+For how this area works day to day, see the [Inventory guide](/docs/guides/inventory).
+
+**Webhook events:** `item.created`, `item.updated`, `stock.level_changed`, `stock.below_reorder_point`, `stock_count.posted`, `waste.recorded`, `transfer.sent`, `transfer.received`, `transfer.discrepancy`. See [Webhooks](/docs/api/webhooks#event-catalog).
+
+All paths are relative to `/api/v1`. **Key** is the scope an integration key needs, **People** the [permission](/docs/platform/administration/permissions-reference) a signed-in person or personal key needs, and **Feature** the [feature switch](/docs/platform/administration/feature-switches) the endpoint belongs to. See [how to read this reference](/docs/api/reference#who-can-call-what).
+
+<Endpoints section="inventory" />

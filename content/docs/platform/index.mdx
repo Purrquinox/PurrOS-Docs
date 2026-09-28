@@ -1,0 +1,71 @@
+---
+title: Platform overview
+description: Install, configure and operate PurrOS on your own server, and administer its organization, accounts, roles and features.
+icon: Server
+---
+
+PurrOS is **self-hosted**: you run it on your own server or cloud account, and your data never leaves it unless you connect something. It runs as a single Go binary, `purros`, next to PostgreSQL, and the same binary is the admin CLI.
+
+## Getting started
+
+<Cards>
+  <Card title="Installation" href="/docs/platform/getting-started/installation">
+    Requirements, Docker Compose, reverse proxy and the first Owner.
+  </Card>
+  <Card title="Deploying on Dokploy" href="/docs/platform/getting-started/dokploy">
+    The Dokploy Compose file, environment, domain and first-time setup.
+  </Card>
+  <Card title="Configuration" href="/docs/platform/getting-started/configuration">
+    Every environment variable, and the `config/` and `state/` directories.
+  </Card>
+  <Card title="Email & file storage" href="/docs/platform/getting-started/email-and-storage">
+    SMTP, S3-compatible storage and backups to S3.
+  </Card>
+  <Card title="First-run setup" href="/docs/platform/getting-started/first-run-setup">
+    Setting up with the CLI today, and the planned setup wizard.
+  </Card>
+  <Card title="Key concepts" href="/docs/platform/getting-started/concepts">
+    The terms used throughout PurrOS.
+  </Card>
+</Cards>
+
+## Administration
+
+<Cards>
+  <Card title="Organization & locations" href="/docs/platform/administration/organization-and-locations">
+    Hierarchy, location profiles, departments and inherited settings.
+  </Card>
+  <Card title="Users, roles & permissions" href="/docs/platform/administration/users-and-roles">
+    Accounts, custom roles, reach and safeguards.
+  </Card>
+  <Card title="Permissions reference" href="/docs/platform/administration/permissions-reference">
+    Every permission, grouped by feature.
+  </Card>
+  <Card title="Authentication" href="/docs/platform/administration/authentication">
+    Sign-in methods, SSO, 2FA, sessions and API keys.
+  </Card>
+  <Card title="Feature switches" href="/docs/platform/administration/feature-switches">
+    Turning features on and off, dependencies and data retention.
+  </Card>
+</Cards>
+
+## Operations
+
+<Cards>
+  <Card title="Backups & upgrades" href="/docs/platform/operations/backups-and-upgrades">
+    Built-in consistent backups, restores and safe upgrades.
+  </Card>
+  <Card title="Monitoring & troubleshooting" href="/docs/platform/operations/monitoring">
+    Health checks, logs, `purros doctor` and common problems.
+  </Card>
+  <Card title="Security" href="/docs/platform/operations/security">
+    What PurrOS protects, and what you are responsible for.
+  </Card>
+  <Card title="CLI reference" href="/docs/platform/operations/cli">
+    Every `purros` command.
+  </Card>
+</Cards>
+
+## Contributing
+
+Want to work on PurrOS itself? The [development guide](/docs/platform/contributing) covers local setup, the repository layout, the rules every endpoint follows, and adding a feature module.

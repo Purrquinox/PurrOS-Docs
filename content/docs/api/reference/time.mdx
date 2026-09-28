@@ -1,0 +1,13 @@
+---
+title: "Time & Attendance"
+description: "Punches and corrections, timesheets, labor rules, pay periods, payroll export and time off."
+icon: Clock
+---
+
+For how this area works day to day, see the [Time & attendance guide](/docs/guides/time-and-attendance).
+
+**Webhook events:** `punch.received`, `punch.corrected`, `punch.exception` <Planned />, `timesheet.approved`, `timesheet.rejected`, `pay_period.locked`, `time_off.requested`, `time_off.approved`, `time_off.rejected`. See [Webhooks](/docs/api/webhooks#event-catalog).
+
+All paths are relative to `/api/v1`. **Key** is the scope an integration key needs, **People** the [permission](/docs/platform/administration/permissions-reference) a signed-in person or personal key needs, and **Feature** the [feature switch](/docs/platform/administration/feature-switches) the endpoint belongs to. See [how to read this reference](/docs/api/reference#who-can-call-what).
+
+<Endpoints section="time" />

@@ -1,0 +1,85 @@
+---
+title: Errors & limits
+description: RFC 9457 Problem Details with stable error codes, idempotency keys for safe retries, and rate limits.
+icon: TriangleAlert
+---
+
+## Errors
+
+Errors use RFC 9457 Problem Details with a stable `code`:
+
+```json
+{
+  "type": "https://purros.dev/errors/validation",
+  "title": "Validation failed",
+  "status": 422,
+  "code": "validation_error",
+  "requestId": "req_01J8Z…",
+  "errors": [{ "path": "lines[0].quantity", "message": "Must be a decimal string" }]
+}
+```
+
+Branch on `code`, not on `title` or `status` alone:
+
+| Status | `code` | Meaning |
+|---|---|---|
+| 400 | `bad_request` | Malformed JSON or parameters |
+| 401 | `unauthorized` | Missing, invalid, expired or revoked key, or wrong sign-in details |
+| 401 | `session_expired` | The session ended; sign in again |
+| 401 | `mfa_required` | Finish signing in at `POST /auth/sign-in/mfa` |
+| 403 | `forbidden` | The key lacks the scope, or the person lacks the permission |
+| 403 | `out_of_reach` | The person's permission doesn't reach this location or employee |
+| 403 | `mfa_enrollment_required` | The company requires two-factor authentication; set it up first |
+| 404 | `not_found` | No such record |
+| 404 | `feature_disabled` | The feature is switched off |
+| 409 | `conflict` | Duplicate, or an idempotency key reused with a different body |
+| 409 | `version_mismatch` | `If-Match` didn't match the current version |
+| 409 | `period_locked` | The business day or pay period is locked |
+| 413 | `payload_too_large` | An upload is larger than `STORAGE_MAX_UPLOAD_MB` ([Attachments](/docs/api/attachments#accepted-files)) |
+| 422 | `validation_error` | Field errors in `errors[]` |
+| 422 | `insufficient_stock` | Not enough stock to reserve or ship |
+| 429 | `rate_limited` | Slow down, and see `Retry-After` |
+| 5xx | `internal_error` | Retry with backoff, and quote `requestId` if reporting it |
+
+Every response includes an `X-Request-Id` header. The same ID appears in the server's logs, so quote it when [reporting a problem](/docs/platform/operations/monitoring#getting-help).
+
+### What to retry
+
+<Accordions type="single">
+  <Accordion title="Retry with backoff: 429 and 5xx">
+    Wait for `Retry-After` seconds when it's present, otherwise back off exponentially (1 s, 2 s, 4 s…). Reuse the same `Idempotency-Key` so a retried `POST` can't create a duplicate.
+  </Accordion>
+  <Accordion title="Fix, then re-send: 400 and 422">
+    The request itself is wrong. For batches, only the records marked `rejected` need fixing; the rest were stored.
+  </Accordion>
+  <Accordion title="Re-read, then decide: 409">
+    For `version_mismatch`, fetch the record again, re-apply your change and send it with the new `version`. For `period_locked`, the change needs a person to review it.
+  </Accordion>
+  <Accordion title="Don't retry: 401, 403, 404">
+    Check the key, its scopes, the person's permissions and reach, and whether the feature is switched on (`GET /api/v1/features`).
+  </Accordion>
+</Accordions>
+
+## Idempotency
+
+Send an `Idempotency-Key` header on any `POST`. If a request with the same key is repeated within 24 hours, you get the original response instead of a duplicate. The same key with a different body returns `409 conflict`.
+
+```http
+POST /api/v1/cash/deposits HTTP/1.1
+Authorization: Bearer pk_live_…
+Idempotency-Key: 5f0c7e2a-8f59-4a4e-9a0e-6b1d3c1f0e21
+Content-Type: application/json
+```
+
+Ingestion endpoints are also idempotent by `(source, externalId)`, so re-sending the same record updates it rather than duplicating it. See [Data ingestion](/docs/api/data-ingestion).
+
+## Rate limits
+
+| Key type | Default |
+|---|---|
+| Interactive / personal keys | 600 requests per minute |
+| Keys sending data feeds | 3,000 requests per minute |
+
+Every response has `RateLimit-Limit`, `RateLimit-Remaining` and `RateLimit-Reset`. When over the limit you get `429` with `Retry-After`. Use batch endpoints for volume: one batch of 1,000 records counts as one request.
+
+Server operators change the defaults with `API_RATE_LIMIT_PER_MIN`, `API_INGEST_RATE_LIMIT_PER_MIN` and `API_MAX_BATCH_SIZE` ([Configuration](/docs/platform/getting-started/configuration#api-and-ingestion-limits)).

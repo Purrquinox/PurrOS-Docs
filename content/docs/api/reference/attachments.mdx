@@ -1,0 +1,13 @@
+---
+title: "Attachments"
+description: "Uploading, listing, downloading and deleting files."
+icon: Paperclip
+---
+
+Files a person can't see answer `404`, as if they didn't exist. See [Attachments](/docs/api/attachments) for upload formats, accepted file types and the access rules.
+
+**Webhook events:** `attachment.uploaded`, `attachment.deleted`.
+
+All paths are relative to `/api/v1`. **Key** is the scope an integration key needs, **People** the [permission](/docs/platform/administration/permissions-reference) a signed-in person or personal key needs, and **Feature** the [feature switch](/docs/platform/administration/feature-switches) the endpoint belongs to. See [how to read this reference](/docs/api/reference#who-can-call-what).
+
+<Endpoints section="attachments" />

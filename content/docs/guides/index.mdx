@@ -1,0 +1,79 @@
+---
+title: ERP guides
+description: How each part of PurrOS works day to day, written for the people who use it. Every feature is optional; switch on only what your business needs.
+icon: BookOpen
+---
+
+Each guide starts with the feature's switch, what it depends on, and **what works today**, and ends with the API endpoints and webhook events you can use now. Until the web app ships, everything described as a screen is available through the [API](/docs/api).
+
+## How the features fit together
+
+Features build on each other: sales feeds drive cash, inventory usage and forecasting; punches become timesheets and payroll hours; everything rolls up into reports. Arrows show what a feature **needs** to be switched on.
+
+<Mermaid
+  chart={`flowchart LR
+  people["People & HR"] --> time["Time & Attendance"]
+  time --> scheduling["Scheduling & Forecasting"]
+  people --> scheduling
+  people --> ea["Employee Area"]
+  sales["Sales"] --> cash["Cash Management"]
+  inventory["Inventory"] --> purchasing["Purchasing & Ordering"]
+  sales -.->|usage recipes| inventory
+  sales -.->|demand| scheduling`}
+/>
+
+Solid arrows are hard dependencies. Dotted arrows are optional: usage recipes need Sales, and forecasting uses sales data when Sales is on. See [Feature switches](/docs/platform/administration/feature-switches).
+
+## People & time
+
+<Cards>
+  <Card title="People & HR" href="/docs/guides/people-and-hr">
+    Employee records, pay rates, skills, documents, transfers and terminations. **For** HR and managers.
+  </Card>
+  <Card title="Time & attendance" href="/docs/guides/time-and-attendance">
+    Punches, labor rules, timesheets, time off and payroll export. **For** managers and payroll.
+  </Card>
+  <Card title="Scheduling & forecasting" href="/docs/guides/scheduling-and-forecasting">
+    Demand forecasts, staffing rules, schedules, swaps and open shifts. **For** managers and schedulers.
+  </Card>
+  <Card title="Employee Area" href="/docs/guides/employee-area">
+    Every employee's own space: schedule, time, pay, time off and documents. **For** every employee.
+  </Card>
+</Cards>
+
+## Money & stock
+
+<Cards>
+  <Card title="Sales" href="/docs/guides/sales">
+    Sales feeds from POS and online stores, customers, sales orders and invoices. **For** sales and fulfilment.
+  </Card>
+  <Card title="Cash management" href="/docs/guides/cash-management">
+    Drawer counts, over/short, deposits and reconciliation. **For** managers and finance.
+  </Card>
+  <Card title="Inventory" href="/docs/guides/inventory">
+    Items, the stock ledger, counts, waste, transfers and usage recipes. **For** inventory staff and managers.
+  </Card>
+  <Card title="Purchasing & ordering" href="/docs/guides/purchasing-and-ordering">
+    Suppliers, suggested orders, purchase orders, receiving and invoice matching. **For** purchasing and managers.
+  </Card>
+</Cards>
+
+## Operations
+
+<Cards>
+  <Card title="Forms, checklists & compliance" href="/docs/guides/forms-and-checklists">
+    Digital forms, scheduled checklists, audits, corrective actions and sensors. **For** managers, auditors and all staff.
+  </Card>
+  <Card title="Equipment & assets" href="/docs/guides/equipment-and-assets">
+    The asset register, preventive maintenance and repair tickets. **For** managers and maintenance.
+  </Card>
+  <Card title="Communication" href="/docs/guides/communication">
+    Announcements, messaging, the company calendar and notifications. **For** everyone.
+  </Card>
+  <Card title="Team displays" href="/docs/guides/team-displays">
+    Live team boards with goals, recognition and shift reminders. **For** managers.
+  </Card>
+  <Card title="Reports & insights" href="/docs/guides/reports-and-insights">
+    Dashboards, KPIs, multi-location rollups, alerts and recommended actions. **For** managers and owners.
+  </Card>
+</Cards>

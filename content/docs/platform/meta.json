@@ -1,0 +1,13 @@
+{
+  "title": "Platform",
+  "description": "Install, configure and run PurrOS",
+  "icon": "Server",
+  "root": true,
+  "pages": [
+    "index",
+    "getting-started",
+    "administration",
+    "operations",
+    "contributing"
+  ]
+}

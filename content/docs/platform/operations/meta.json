@@ -1,0 +1,6 @@
+{
+  "title": "Operations",
+  "icon": "Activity",
+  "defaultOpen": true,
+  "pages": ["backups-and-upgrades", "monitoring", "security", "cli"]
+}

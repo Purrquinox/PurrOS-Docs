@@ -1,0 +1,11 @@
+---
+title: "Webhooks"
+description: "Webhook endpoints and their delivery log: add, test, rotate secrets, and replay deliveries."
+icon: Webhook
+---
+
+People only, with `webhooks.manage` at reach Everyone. An integration's endpoint comes from its manifest; standalone endpoints are added here. See [Webhooks](/docs/api/webhooks) for payloads, signatures and the event catalog.
+
+All paths are relative to `/api/v1`. **Key** is the scope an integration key needs, **People** the [permission](/docs/platform/administration/permissions-reference) a signed-in person or personal key needs, and **Feature** the [feature switch](/docs/platform/administration/feature-switches) the endpoint belongs to. See [how to read this reference](/docs/api/reference#who-can-call-what).
+
+<Endpoints section="webhooks" />
